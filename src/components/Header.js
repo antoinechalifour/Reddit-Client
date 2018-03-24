@@ -2,6 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
+import SearchBox from './SearchBox'
+import ApiContext from './ApiContext'
 
 export default function Header ({ title }) {
   return (
@@ -18,6 +20,14 @@ export default function Header ({ title }) {
         </svg>
       </Link>
       <h1>{title}</h1>
+
+      <ApiContext.Consumer>
+        {({ api }) => (
+          <SearchContainer>
+            <SearchBox api={api} />
+          </SearchContainer>
+        )}
+      </ApiContext.Consumer>
     </Container>
   )
 }
@@ -42,5 +52,10 @@ const Container = styled.header`
     font-family: var(--typography-title);
     font-size: 32px;
     text-shadow: 0 3px 1px #123597;
+    flex: 1;
   }
+`
+
+const SearchContainer = styled.div`
+  justify-self: flex-end;
 `

@@ -5,6 +5,7 @@
   "dependencies": {
     "create-react-context": "^0.2.1",
     "date-fns": "^1.29.0",
+    "debounce": "^1.1.0",
     "decode-html": "^2.0.0",
     "prop-types": "^15.6.1",
     "randomcolor": "^0.5.3",

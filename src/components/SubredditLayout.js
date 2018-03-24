@@ -54,6 +54,12 @@ const ContentContainer = styled.main`
   border-radius: 2px;
   position: relative;
   top: -32px;
+
+  > * + * {
+    padding-top: 12px;
+    margin-top: 12px;
+    border-top: 1px solid rgba(0, 0, 0, .1);
+  }
 `
 
 const RightSidebarContainer = styled.div`

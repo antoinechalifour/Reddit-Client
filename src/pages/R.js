@@ -27,17 +27,25 @@ export default class R extends Component {
     content: null
   }
 
-  async componentDidMount () {
+  componentDidMount () {
     this.syncListing()
-    this.setState({
-      about: await this.props.api.r.about(this.props.r)
-    })
+    this.syncAbout()
   }
 
   componentDidUpdate (prevProps) {
     if (prevProps.listingParams !== this.props.listingParams) {
       this.syncListing(this.props.listingParams)
     }
+
+    if (prevProps.r !== this.props.r) {
+      this.syncAbout()
+    }
+  }
+
+  async syncAbout () {
+    this.setState({
+      about: await this.props.api.r.about(this.props.r)
+    })
   }
 
   async syncListing ({ before, after, count } = {}) {
@@ -64,6 +72,11 @@ export default class R extends Component {
         renderHeader={() => <Header title={`/r/${this.props.r}`} />}
         renderContent={() => (
           <Fragment>
+            <ListingPagination
+              base={`/r/${this.props.r}`}
+              listing={this.state.content}
+              listingParams={this.props.listingParams}
+            />
             <ArticleList listing={this.state.content} />
             <ListingPagination
               base={`/r/${this.props.r}`}

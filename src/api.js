@@ -13,7 +13,7 @@ function removeUndefinedValues (obj) {
 }
 
 export default function createApi () {
-  const baseUrl = 'https://api.reddit.com'
+  const baseUrl = 'https://www.reddit.com'
 
   function buildUrl (path) {
     return `${baseUrl}${path}`
@@ -28,7 +28,7 @@ export default function createApi () {
   }
 
   async function best (options = {}) {
-    const response = await fetch(buildListingUrl('/best', options), {
+    const response = await fetch(buildListingUrl('/best.json', options), {
       method: 'GET'
     })
 
@@ -36,7 +36,7 @@ export default function createApi () {
   }
 
   async function commentsByArticleId (articleId) {
-    const response = await fetch(buildUrl(`/comments/${articleId}`))
+    const response = await fetch(buildUrl(`/comments/${articleId}.json`))
 
     const [articleListing, commentsListing] = await response.json()
 
@@ -47,7 +47,7 @@ export default function createApi () {
   }
 
   async function rContent (r, options = {}) {
-    const response = await fetch(buildListingUrl(`/r/${r}`, options), {
+    const response = await fetch(buildListingUrl(`/r/${r}.json`, options), {
       method: 'GET'
     })
 
@@ -55,7 +55,21 @@ export default function createApi () {
   }
 
   async function rAbout (r) {
-    const response = await fetch(buildUrl(`/r/${r}/about`))
+    const response = await fetch(buildUrl(`/r/${r}/about.json`))
+
+    return response.json()
+  }
+
+  async function rSearch (query) {
+    const options = stringify({
+      include_over_18: 'on',
+      q: query
+    })
+
+    const uri = `/subreddits/search.json?${options}`
+    const response = await fetch(buildUrl(uri), {
+      method: 'GET'
+    })
 
     return response.json()
   }
@@ -67,7 +81,8 @@ export default function createApi () {
     },
     r: {
       r: rContent,
-      about: rAbout
+      about: rAbout,
+      search: rSearch
     }
   }
 }

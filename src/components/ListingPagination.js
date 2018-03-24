@@ -45,10 +45,10 @@ export default class ListingPagination extends Component {
       <Container>
         {this.props.listing.before !== null
           ? <Link to={this.previousUrl}><PreviousIcon /> Previous</Link>
-          : null}
+          : <span />}
         {this.props.listing.after !== null
           ? <Link to={this.nextUrl}>Next <NextIcon /></Link>
-          : null}
+          : <span />}
       </Container>
     )
   }
@@ -57,9 +57,6 @@ export default class ListingPagination extends Component {
 const Container = styled.div`
   display: flex;
   justify-content: space-between;
-  border-top: 1px solid rgba(0, 0, 0, .1);
-  padding-top: 12px;
-  margin-top: 12px;
 
   a {
     color: inherit;

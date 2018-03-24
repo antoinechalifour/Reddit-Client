@@ -51,6 +51,10 @@ export default class Home extends Component {
         renderHeader={() => <Header title='Welcome to Reddit' />}
         renderContent={() => (
           <Fragment>
+            <ListingPagination
+              listing={this.state.listing}
+              listingParams={this.props.listingParams}
+            />
             <ArticleList listing={this.state.listing} />
             <ListingPagination
               listing={this.state.listing}
