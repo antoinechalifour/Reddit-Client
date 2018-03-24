@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import Header from '../components/Header'
 import SubredditLayout from '../components/SubredditLayout'
+import SubredditDescription from '../components/SubredditDescription'
 import ArticleList from '../components/ArticleList'
 import ListingPagination from '../components/ListingPagination'
 
@@ -70,6 +71,9 @@ export default class R extends Component {
               listingParams={this.props.listingParams}
             />
           </Fragment>
+        )}
+        renderRightSidebar={() => (
+          <SubredditDescription {...this.state.about} />
         )}
       />
     )

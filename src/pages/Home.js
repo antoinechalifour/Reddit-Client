@@ -58,6 +58,7 @@ export default class Home extends Component {
             />
           </Fragment>
         )}
+        renderRightSidebar={() => null}
       />
     )
   }

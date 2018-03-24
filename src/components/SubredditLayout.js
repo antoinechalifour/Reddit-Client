@@ -2,17 +2,22 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-export default function SubredditLayout ({ renderHeader, renderContent }) {
+export default function SubredditLayout ({
+  renderHeader,
+  renderContent,
+  renderRightSidebar
+}) {
   return (
     <Container>
       <HeaderContainer>
         {renderHeader()}
       </HeaderContainer>
-      <Body>
-        <ContentContainer>
-          {renderContent()}
-        </ContentContainer>
-      </Body>
+      <ContentContainer>
+        {renderContent()}
+      </ContentContainer>
+      <RightSidebarContainer>
+        {renderRightSidebar()}
+      </RightSidebarContainer>
     </Container>
   )
 }
@@ -25,22 +30,33 @@ SubredditLayout.propTypes = {
 const Container = styled.div`
   background: #f7f7f9;
   min-height: 100vh;
+  display: grid;
+  grid-template-areas:
+    "header header header"
+    "content content right";
+  grid-template-rows: auto 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
+  padding: 16px;
 `
 
-const HeaderContainer = styled.div``
-
-const Body = styled.div`
-  box-shadow: 0 1px 12px rgba(0, 0, 0, .2);
+const HeaderContainer = styled.div`
+  grid-area: header;
+  margin-top: -16px;
+  margin-left: -16px;
+  margin-right: -16px;
 `
 
 const ContentContainer = styled.main`
-  width: 98%;
-  max-width: 960px;
-  margin: auto;
+  grid-area: content;
   background: #fff;
   padding: 16px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, .15);
   border-radius: 2px;
   position: relative;
   top: -32px;
+`
+
+const RightSidebarContainer = styled.div`
+  grid-area: right;
+  padding: 16px;
 `
