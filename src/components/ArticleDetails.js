@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import format from 'date-fns/format'
 import LinkIcon from 'react-icons/lib/md/link'
+import decodeHtmlEntities from 'decode-html'
 import HintText from './HintText'
 
 export default function ArticleDetails ({ data }) {
@@ -17,7 +18,7 @@ export default function ArticleDetails ({ data }) {
       </Header>
 
       {data.post_hint === 'image'
-        ? <ImagePost src={data.preview.images[0].source.url} />
+        ? <ImagePost src={decodeHtmlEntities(data.url)} />
         : null}
 
       {data.post_hint === 'link'
@@ -41,7 +42,8 @@ ArticleDetails.propTypes = {
     title: PropTypes.string.isRequired,
     author: PropTypes.string.isRequired,
     created_utc: PropTypes.number.isRequired,
-    post_hint: PropTypes.string.isRequired
+    post_hint: PropTypes.string.isRequired,
+    url: PropTypes.string.isRequired
   }).isRequired
 }
 
