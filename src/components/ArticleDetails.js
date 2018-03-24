@@ -33,6 +33,22 @@ export default function ArticleDetails ({ data }) {
           </LinksContainer>
         </Content>
         : null}
+
+      {data.post_hint === 'rich:video'
+        ? <VideoPost
+          controls
+          autoPlay
+          src={data.preview.reddit_video_preview.fallback_url}
+          />
+        : null}
+
+      {data.post_hint === 'hosted:video'
+        ? <VideoPost
+          controls
+          autoPlay
+          src={data.media.reddit_video.fallback_url}
+          />
+        : null}
     </Container>
   )
 }
@@ -87,6 +103,11 @@ const ImagePost = styled.img`
   border-bottom-left-radius: 2px;
   border-bottom-right-radius: 2px;
   margin-top: -12px;
+`
+
+const VideoPost = styled.video`
+  display: block;
+  width: 100%;
 `
 
 const LinksContainer = styled.div`
