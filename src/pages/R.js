@@ -1,5 +1,7 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
+import Header from '../components/Header'
+import SubredditLayout from '../components/SubredditLayout'
 import ArticleList from '../components/ArticleList'
 import ListingPagination from '../components/ListingPagination'
 
@@ -57,15 +59,19 @@ export default class R extends Component {
     }
 
     return (
-      <div>
-        <div>Todo: header</div>
-        <ArticleList listing={this.state.content} />
-        <ListingPagination
-          base={`/r/${this.props.r}`}
-          listing={this.state.content}
-          listingParams={this.props.listingParams}
-        />
-      </div>
+      <SubredditLayout
+        renderHeader={() => <Header title={`/r/${this.props.r}`} />}
+        renderContent={() => (
+          <Fragment>
+            <ArticleList listing={this.state.content} />
+            <ListingPagination
+              base={`/r/${this.props.r}`}
+              listing={this.state.content}
+              listingParams={this.props.listingParams}
+            />
+          </Fragment>
+        )}
+      />
     )
   }
 }

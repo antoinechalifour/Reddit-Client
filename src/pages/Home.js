@@ -1,11 +1,7 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
-import { stringify } from 'querystring'
-import {
-  getPreviousListingParams,
-  getNextListingParams
-} from '../util/listings'
+import SubredditLayout from '../components/SubredditLayout'
+import Header from '../components/Header'
 import ArticleList from '../components/ArticleList'
 import ListingPagination from '../components/ListingPagination'
 
@@ -51,13 +47,18 @@ export default class Home extends Component {
     }
 
     return (
-      <div>
-        <ArticleList listing={this.state.listing} />
-        <ListingPagination
-          listing={this.state.listing}
-          listingParams={this.props.listingParams}
-        />
-      </div>
+      <SubredditLayout
+        renderHeader={() => <Header title='Welcome to Reddit' />}
+        renderContent={() => (
+          <Fragment>
+            <ArticleList listing={this.state.listing} />
+            <ListingPagination
+              listing={this.state.listing}
+              listingParams={this.props.listingParams}
+            />
+          </Fragment>
+        )}
+      />
     )
   }
 }
