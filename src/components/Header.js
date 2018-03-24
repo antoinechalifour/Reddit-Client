@@ -38,5 +38,6 @@ const Container = styled.header`
   h1 {
     font-family: var(--typography-title);
     font-size: 32px;
+    text-shadow: 0 3px 1px #123597;
   }
 `
