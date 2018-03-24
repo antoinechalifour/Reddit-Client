@@ -41,6 +41,7 @@ export default function ArticleThumbnail ({ post_hint, ...rest }) {
       )
 
     case 'image':
+    case 'rich:video':
       return (
         <ImageContainer>
           <img
