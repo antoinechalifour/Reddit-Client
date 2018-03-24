@@ -65,7 +65,7 @@ export default class Home extends Component {
         <ul>
           {this.state.listing.children.map(({ data }) => (
             <li key={data.id}>
-              <div>{data.title}</div>
+              <Link to={`/comments/${data.id}`}>{data.title}</Link>
               <div>{data.author} - {data.subreddit_name_prefixed}</div>
               <hr />
             </li>
