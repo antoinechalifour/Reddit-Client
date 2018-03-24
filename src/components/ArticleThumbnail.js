@@ -47,6 +47,7 @@ export default function ArticleThumbnail ({ post_hint, ...rest }) {
         <ImageContainer>
           <img
             src={decodeHtmlEntities(rest.preview.images[0].resolutions[0].url)}
+            alt={`Thumbnail for "${rest.title}"`}
           />
         </ImageContainer>
       )

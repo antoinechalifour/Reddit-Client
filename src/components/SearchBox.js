@@ -61,7 +61,7 @@ export default class SearchBox extends Component {
         {this.state.showSuggestions
           ? <Suggestions>
             {this.state.suggestions.children.map(({ data }) => (
-              <li>
+              <li key={data.url}>
                 <Link to={data.url} onClick={this.resetState}>
                   {data.url}
                 </Link>
