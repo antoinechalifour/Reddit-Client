@@ -1,7 +1,10 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
+import styled from 'styled-components'
 import { stringify } from 'querystring'
 import { Link } from 'react-router-dom'
+import PreviousIcon from 'react-icons/lib/md/navigate-before'
+import NextIcon from 'react-icons/lib/md/navigate-next'
 import {
   getPreviousListingParams,
   getNextListingParams
@@ -39,14 +42,32 @@ export default class ListingPagination extends Component {
 
   render () {
     return (
-      <div>
+      <Container>
         {this.props.listing.before !== null
-          ? <Link to={this.previousUrl}>Previous</Link>
+          ? <Link to={this.previousUrl}><PreviousIcon /> Previous</Link>
           : null}
         {this.props.listing.after !== null
-          ? <Link to={this.nextUrl}>Next</Link>
+          ? <Link to={this.nextUrl}>Next <NextIcon /></Link>
           : null}
-      </div>
+      </Container>
     )
   }
 }
+
+const Container = styled.div`
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid rgba(0, 0, 0, .1);
+  padding-top: 12px;
+  margin-top: 12px;
+
+  a {
+    color: inherit;
+    opacity: .6;
+    transition: opacity .3s ease;
+
+    :hover {
+      opacity: 1;
+    }
+  }
+`
