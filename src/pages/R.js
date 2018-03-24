@@ -1,19 +1,17 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
-import { stringify } from 'querystring'
-import {
-  getPreviousListingParams,
-  getNextListingParams
-} from '../util/listings'
 import ArticleList from '../components/ArticleList'
 import ListingPagination from '../components/ListingPagination'
 
-export default class Home extends Component {
+export default class R extends Component {
   static propTypes = {
     api: PropTypes.shape({
-      best: PropTypes.func.isRequired
+      r: PropTypes.shape({
+        r: PropTypes.func.isRequired,
+        about: PropTypes.func.isRequired
+      }).isRequired
     }).isRequired,
+    r: PropTypes.string.isRequired,
     listingParams: PropTypes.shape({
       before: PropTypes.string,
       after: PropTypes.string,
@@ -22,11 +20,15 @@ export default class Home extends Component {
   }
 
   state = {
-    listing: null
+    about: null,
+    content: null
   }
 
-  componentDidMount () {
-    this.syncListing(this.props.listingParams)
+  async componentDidMount () {
+    this.syncListing()
+    this.setState({
+      about: await this.props.api.r.about(this.props.r)
+    })
   }
 
   componentDidUpdate (prevProps) {
@@ -36,25 +38,31 @@ export default class Home extends Component {
   }
 
   async syncListing ({ before, after, count } = {}) {
-    const { data } = await this.props.api.best({ before, after, count })
+    const { data } = await this.props.api.r.r(this.props.r, {
+      before,
+      after,
+      count
+    })
 
-    this.setState({ listing: data }, () => window.scrollTo(0, 0))
+    this.setState({ content: data }, () => window.scrollTo(0, 0))
   }
 
   get isLoading () {
-    return this.state.listing === null
+    return this.state.about === null || this.state.content === null
   }
 
   render () {
     if (this.isLoading) {
-      return <div>Loading</div>
+      return <div>Loading...</div>
     }
 
     return (
       <div>
-        <ArticleList listing={this.state.listing} />
+        <div>Todo: header</div>
+        <ArticleList listing={this.state.content} />
         <ListingPagination
-          listing={this.state.listing}
+          base={`/r/${this.props.r}`}
+          listing={this.state.content}
           listingParams={this.props.listingParams}
         />
       </div>

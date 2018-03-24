@@ -46,10 +46,28 @@ export default function createApi () {
     }
   }
 
+  async function rContent (r, options = {}) {
+    const response = await fetch(buildListingUrl(`/r/${r}`, options), {
+      method: 'GET'
+    })
+
+    return response.json()
+  }
+
+  async function rAbout (r) {
+    const response = await fetch(buildUrl(`/r/${r}/about`))
+
+    return response.json()
+  }
+
   return {
     best,
     comments: {
       byArticleId: commentsByArticleId
+    },
+    r: {
+      r: rContent,
+      about: rAbout
     }
   }
 }
