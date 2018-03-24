@@ -1,16 +1,19 @@
 import 'reset.css/reset.css'
 import React from 'react'
 import ReactDOM from 'react-dom'
-import App from './App'
 import registerServiceWorker from './registerServiceWorker'
+import App from './App'
+import Api from './api'
 
-ReactDOM.render(<App />, document.getElementById('root'))
+const api = Api()
+
+ReactDOM.render(<App api={api} />, document.getElementById('root'))
 registerServiceWorker()
 
 if (module.hot) {
   module.hot.accept('./App', () => {
     const NextApp = require('./App').default
 
-    ReactDOM.render(<NextApp />, document.getElementById('root'))
+    ReactDOM.render(<NextApp api={api} />, document.getElementById('root'))
   })
 }
