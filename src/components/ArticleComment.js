@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import Markdown from 'react-remarkable'
 import format from 'date-fns/format'
 import randomColor from 'randomcolor'
+import decodeHtmlEntities from 'decode-html'
 import HintText from './HintText'
 
 export default function ArticleComment ({
@@ -22,7 +23,7 @@ export default function ArticleComment ({
         </HintText>
       </div>
       <Markdown>
-        {body}
+        {decodeHtmlEntities(body)}
       </Markdown>
 
       <Replies>

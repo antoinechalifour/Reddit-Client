@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import format from 'date-fns/format'
 import GildedIcon from 'react-icons/lib/md/star'
+import decodeHtmlEntities from 'decode-html'
 import ArticleThumbnail from './ArticleThumbnail'
 import ArticleChips from './ArticleChips'
 
@@ -16,15 +17,15 @@ export default function ArticleList ({ listing }) {
             <ArticleThumbnail {...data} />
             <div>
               <div>
-                {data.title}
+                {decodeHtmlEntities(data.title)}
                 {data.gilded > 0
                   ? <Gilded><GildedIcon /> {data.gilded}</Gilded>
                   : null}
               </div>
               <ArticleChips {...data} />
               <Information>
-                <span>{data.subreddit_name_prefixed}</span>
-                <span>{data.author}</span>
+                <span>/{data.subreddit_name_prefixed}</span>
+                <span>/u/{data.author}</span>
                 <span>
                   {format(new Date(data.created_utc * 1000), 'DD/MM/YYYY')}
                 </span>
