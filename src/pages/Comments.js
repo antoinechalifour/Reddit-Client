@@ -65,7 +65,7 @@ export default class Comments extends Component {
   }
 
   get isLoading () {
-    return this.state.article === null
+    return this.state.article === null || this.state.comments === null
   }
 
   render () {
@@ -82,60 +82,10 @@ export default class Comments extends Component {
         renderArticle={() => (
           <Fragment>
             <ArticleDetails {...article} />
-            <ArticleComments {...comments} />
+            <ArticleComments {...comments} linkId={article.data.name} />
           </Fragment>
         )}
       />
     )
-
-    // return (
-    //   <div>
-    //     <div>
-    //       <h1>{article.data.title}</h1>
-    //       <div>Author: {article.data.author}</div>
-    //       <div>Subreddit: {article.data.subreddit_name_prefixed}</div>
-    //       <div>
-    //         Posted at:
-    //         {' '}
-    //         {format(new Date(article.data.created_utc * 1000), 'DD/MM/YYYY')}
-    //       </div>
-    //       <div>Score: {article.data.score}</div>
-    //       <div>Archived: {article.data.archived.toString()}</div>
-    //       <div>Pinned: {article.data.pinned.toString()}</div>
-    //       <div>NSFW: {article.data.over_18.toString()}</div>
-    //       {article.data.selftext !== ''
-    //         ? <div>SelfText: {article.data.selftext}</div>
-    //         : null}
-    //       <div>
-    //         Preview:
-    //         {' '}
-    //         {article.data.preview.enabled
-    //           ? <img
-    //             src={article.data.preview.images[0].source.url}
-    //             style={{ width: '100%' }}
-    //             />
-    //           : 'None'}
-    //       </div>
-    //       <div>Comments: {article.data.num_comments}</div>
-    //       <div>Edited: {article.data.edited.toString()}</div>
-    //       <div>Gilded: {article.data.gilded.toString()}</div>
-    //       <div>Locked: {article.data.locked.toString()}</div>
-    //       <div>Stickied: {article.data.stickied.toString()}</div>
-    //       <div>Spoiler: {article.data.spoiler.toString()}</div>
-    //       <div>POST HINT: {article.data.post_hint}</div>
-    //     </div>
-    //     <hr />
-    //     <div>
-    //       <ul>
-    //         {comments.data.children.map(({ data }) => (
-    //           <li key={data.id}>
-    //             <Comment {...data} />
-    //             <hr />
-    //           </li>
-    //         ))}
-    //       </ul>
-    //     </div>
-    //   </div>
-    // )
   }
 }

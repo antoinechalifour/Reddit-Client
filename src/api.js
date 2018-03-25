@@ -120,10 +120,22 @@ export default function createApi () {
     return response.json()
   }
 
+  async function moreChildren (linkId, commentIds) {
+    const options = stringify({
+      api_type: 'json',
+      link_id: linkId,
+      children: commentIds.join(',')
+    })
+    const response = await fetch(buildUrl(`/api/morechildren.json?${options}`))
+
+    return response.json()
+  }
+
   return {
     best,
     comments: {
-      byArticleId: commentsByArticleId
+      byArticleId: commentsByArticleId,
+      moreChildren
     },
     r: {
       r: rContent,

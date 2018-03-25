@@ -1,14 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import ArticleComment from './ArticleComment'
+import ArticleCommentWrapper from './ArticleCommentWrapper'
 
-export default function ArticleComments ({ data }) {
+export default function ArticleComments ({ linkId, data }) {
   return (
     <Container>
       {data.children.map(({ data }) => (
         <li key={data.id}>
-          <ArticleComment {...data} />
+          <ArticleCommentWrapper {...data} linkId={linkId} />
         </li>
       ))}
     </Container>
@@ -16,6 +16,7 @@ export default function ArticleComments ({ data }) {
 }
 
 ArticleComments.propTypes = {
+  linkId: PropTypes.string.isRequired,
   data: PropTypes.shape({
     children: PropTypes.arrayOf(
       PropTypes.shape({

@@ -65,8 +65,8 @@ ArticleDetails.propTypes = {
     title: PropTypes.string.isRequired,
     author: PropTypes.string.isRequired,
     created_utc: PropTypes.number.isRequired,
-    post_hint: PropTypes.string.isRequired,
-    url: PropTypes.string.isRequired
+    url: PropTypes.string.isRequired,
+    post_hint: PropTypes.string
   }).isRequired
 }
 

@@ -6,13 +6,15 @@ import format from 'date-fns/format'
 import randomColor from 'randomcolor'
 import decodeHtmlEntities from 'decode-html'
 import HintText from './HintText'
+import ArticleCommentWrapper from './ArticleCommentWrapper'
 
 export default function ArticleComment ({
   author,
   created_utc,
   body,
   depth,
-  replies
+  replies,
+  link_id
 }) {
   return (
     <Container>
@@ -31,7 +33,11 @@ export default function ArticleComment ({
           ? replies.data.children.map(({ data }) => {
             return (
               <li key={data.id}>
-                <ArticleComment {...data} depth={depth + 1} />
+                <ArticleCommentWrapper
+                  {...data}
+                  depth={depth + 1}
+                  linkId={link_id}
+                  />
               </li>
             )
           })
