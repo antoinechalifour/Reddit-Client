@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import format from 'date-fns/format'
 import LinkIcon from 'react-icons/lib/md/link'
 import decodeHtmlEntities from 'decode-html'
+import Markdown from 'react-remarkable'
 import HintText from './HintText'
 
 export default function ArticleDetails ({ data }) {
@@ -16,6 +17,12 @@ export default function ArticleDetails ({ data }) {
           <span>{format(new Date(data.created_utc * 1000), 'DD/MM/YYYY')}</span>
         </Information>
       </Header>
+
+      {data.selftext !== ''
+        ? <Content>
+          <Markdown>{decodeHtmlEntities(data.selftext)}</Markdown>
+        </Content>
+        : null}
 
       {data.post_hint === 'image'
         ? <ImagePost src={decodeHtmlEntities(data.url)} />

@@ -42,7 +42,7 @@ const Container = styled.header`
   background-image: linear-gradient( -8deg, #97ABFF 10%, #123597 100%);
   color: #fff;
   padding: 16px;
-  padding-bottom: 48px;
+  padding-bottom: 96px;
 
   svg {
     margin-right: 16px;

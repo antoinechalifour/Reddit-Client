@@ -1,10 +1,11 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import { NavLink } from 'react-router-dom'
 import Header from '../components/Header'
 import SubredditLayout from '../components/SubredditLayout'
 import SubredditDescription from '../components/SubredditDescription'
-import ArticleList from '../components/ArticleList'
-import ListingPagination from '../components/ListingPagination'
+import SubredditFilter from '../components/SubredditFilter'
 
 export default class R extends Component {
   static propTypes = {
@@ -15,6 +16,7 @@ export default class R extends Component {
       }).isRequired
     }).isRequired,
     r: PropTypes.string.isRequired,
+    filter: PropTypes.string.isRequired,
     listingParams: PropTypes.shape({
       before: PropTypes.string,
       after: PropTypes.string,
@@ -67,20 +69,51 @@ export default class R extends Component {
       return <div>Loading...</div>
     }
 
+    const tabs = [
+      {
+        label: 'All posts',
+        url: 'all'
+      },
+      {
+        label: 'Hot',
+        url: 'hot'
+      },
+      {
+        label: 'New',
+        url: 'new'
+      },
+      {
+        label: 'Rising',
+        url: 'rising'
+      },
+      {
+        label: 'Controversial',
+        url: 'controversial'
+      },
+      {
+        label: 'Top',
+        url: 'top'
+      }
+    ]
+
     return (
       <SubredditLayout
         renderHeader={() => <Header title={`/r/${this.props.r}`} />}
         renderContent={() => (
           <Fragment>
-            <ListingPagination
-              base={`/r/${this.props.r}`}
-              listing={this.state.content}
-              listingParams={this.props.listingParams}
-            />
-            <ArticleList listing={this.state.content} />
-            <ListingPagination
-              base={`/r/${this.props.r}`}
-              listing={this.state.content}
+            <FilterTabs>
+              {tabs.map(tab => (
+                <Tab active={this.props.filter === tab.url}>
+                  <NavLink to={`/r/${this.props.r}/${tab.url}`}>
+                    {tab.label}
+                  </NavLink>
+                </Tab>
+              ))}
+            </FilterTabs>
+            <SubredditFilter
+              r={this.props.r}
+              filter={this.props.filter}
+              api={this.props.api}
               listingParams={this.props.listingParams}
             />
           </Fragment>
@@ -92,3 +125,31 @@ export default class R extends Component {
     )
   }
 }
+
+const FilterTabs = styled.ul`
+  display: flex;
+  position: absolute;
+  bottom: 100%;
+  left: 8px;
+  right: 8px;
+  background: #0e2974;
+  color: #fff;
+  justify-content: center;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+`
+
+const Tab = styled.li`
+  border-bottom: 4px solid ${({ active }) => (active ? 'rgba(255, 255, 255, .8)' : 'transparent')};
+  padding: 6px 12px;
+
+  & + li {
+    margin-left: 8px;
+  }
+
+  a {
+    cursor: pointer;
+    color: inherit;
+    text-decoration: none;
+  }
+`

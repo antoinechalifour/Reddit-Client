@@ -55,10 +55,9 @@ const ContentContainer = styled.main`
   position: relative;
   top: -32px;
 
-  > * + * {
+  > div + * {
     padding-top: 12px;
     margin-top: 12px;
-    border-top: 1px solid rgba(0, 0, 0, .1);
   }
 `
 

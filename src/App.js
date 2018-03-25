@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom'
 import styled from 'styled-components'
 import Home from './pages/Home'
 import Comments from './pages/Comments'
@@ -28,15 +28,23 @@ export default function App ({ api }) {
             />
             <Route
               exact
-              path='/r/:r'
+              path='/r/:r/:filter'
               render={({ history, match }) => (
                 <R
                   r={match.params.r}
+                  filter={match.params.filter}
                   api={api}
                   listingParams={getListingFromQuerystring(
                     history.location.search
                   )}
                 />
+              )}
+            />
+            <Route
+              exact
+              path='/r/:r'
+              render={props => (
+                <Redirect to={`/r/${props.match.params.r}/all`} />
               )}
             />
             <Route

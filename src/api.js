@@ -54,6 +54,52 @@ export default function createApi () {
     return response.json()
   }
 
+  async function rHot (r, options = {}) {
+    const response = await fetch(buildListingUrl(`/r/${r}/hot.json`, options), {
+      method: 'GET'
+    })
+
+    return response.json()
+  }
+
+  async function rNew (r, options = {}) {
+    const response = await fetch(buildListingUrl(`/r/${r}/new.json`, options), {
+      method: 'GET'
+    })
+
+    return response.json()
+  }
+
+  async function rRising (r, options = {}) {
+    const response = await fetch(
+      buildListingUrl(`/r/${r}/rising.json`, options),
+      {
+        method: 'GET'
+      }
+    )
+
+    return response.json()
+  }
+
+  async function rControversial (r, options = {}) {
+    const response = await fetch(
+      buildListingUrl(`/r/${r}/controversial.json`, options),
+      {
+        method: 'GET'
+      }
+    )
+
+    return response.json()
+  }
+
+  async function rTop (r, options = {}) {
+    const response = await fetch(buildListingUrl(`/r/${r}/top.json`, options), {
+      method: 'GET'
+    })
+
+    return response.json()
+  }
+
   async function rAbout (r) {
     const response = await fetch(buildUrl(`/r/${r}/about.json`))
 
@@ -62,7 +108,7 @@ export default function createApi () {
 
   async function rSearch (query) {
     const options = stringify({
-      include_over_18: 'on',
+      nsfw: true,
       q: query
     })
 
@@ -81,6 +127,11 @@ export default function createApi () {
     },
     r: {
       r: rContent,
+      hot: rHot,
+      new: rNew,
+      rising: rRising,
+      controversial: rControversial,
+      top: rTop,
       about: rAbout,
       search: rSearch
     }
