@@ -5,14 +5,19 @@ import SelfIcon from 'react-icons/lib/md/textsms'
 import decodeHtmlEntities from 'decode-html'
 
 const Container = styled.div`
-  width: 64px;
-  height: 64px;
+  width: 48px;
+  height: 48px;
   border-radius: 4px;
   color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 32px;
+
+  @media (min-width: 1000px) {
+    width: 64px;
+    height: 64px;
+  }
 `
 
 const LinkContainer = Container.extend`

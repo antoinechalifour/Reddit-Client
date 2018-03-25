@@ -78,11 +78,7 @@ const Container = styled.div`
   display: flex;
   position: relative;
 
-
-  input{
-    transform: scaleX(0);
-    transform-origin: right;
-    transition: transform .1s ease;
+  input {
     border: none;
     background: none;
     border-bottom: 2px solid rgba(255, 255, 255, .75);
@@ -95,14 +91,6 @@ const Container = styled.div`
     }
   }
 
-  input:focus {
-    transform: scaleX(1);
-  }
-
-  :hover input{
-    transform: scaleX(1);
-  }
-
   button {
     border: none;
     background: none;
@@ -110,6 +98,22 @@ const Container = styled.div`
     color: inherit;
     cursor: pointer;
     outline: none;
+  }
+
+  @media (min-width: 600px) {
+    input{
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform .1s ease;
+    }
+
+    input:focus {
+      transform: scaleX(1);
+    }
+
+    :hover input{
+      transform: scaleX(1);
+    }
   }
 `
 

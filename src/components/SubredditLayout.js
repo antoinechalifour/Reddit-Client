@@ -31,12 +31,21 @@ const Container = styled.div`
   background: #f7f7f9;
   min-height: 100vh;
   display: grid;
-  grid-template-areas:
-    "header header header"
-    "content content right";
-  grid-template-rows: auto 1fr;
-  grid-template-columns: 1fr 1fr 1fr;
   padding: 16px;
+  grid-template-areas:
+    "header"
+    "content"
+    "right";
+  grid-template-rows: auto;
+  grid-template-columns: auto;
+
+  @media (min-width: 1000px) {
+    grid-template-areas:
+      "header header header"
+      "content content right";
+    grid-template-rows: auto 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
+  }
 `
 
 const HeaderContainer = styled.div`

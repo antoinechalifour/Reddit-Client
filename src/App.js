@@ -71,11 +71,15 @@ const StyleProvider = styled.div`
   --typography-title: 'Raleway', sans-serif;
 
   color: #3737d3f;
-  font-size: 18px;
+  font-size: 15px;
   line-height: 1.5;
   font-family: var(--typography-main);
 
   * {
     box-sizing: border-box;
+  }
+
+  @media (min-width: 1000px) {
+    font-size: 18px;
   }
 `

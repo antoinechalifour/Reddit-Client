@@ -57,6 +57,7 @@ ArticleList.propTypes = {
 
 const Article = styled.li`
   a {
+    word-break: break-all;
     padding: 12px;
     color: inherit;
     cursor: pointer;
