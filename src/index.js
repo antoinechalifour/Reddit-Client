@@ -1,4 +1,5 @@
 import 'reset.css/reset.css'
+import 'highlight.js/styles/tomorrow-night.css'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import registerServiceWorker from './registerServiceWorker'

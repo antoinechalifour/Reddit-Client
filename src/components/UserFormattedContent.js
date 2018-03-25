@@ -1,6 +1,26 @@
+import React, { Component } from 'react'
 import styled from 'styled-components'
+import highlight from 'highlight.js'
 
-const UserFormattedContent = styled.div`
+export default class UserFormattedContent extends Component {
+  componentDidUpdate () {}
+
+  onRef = e => {
+    if (!e) {
+      return
+    }
+
+    const codes = [...e.querySelectorAll('pre code')]
+
+    codes.forEach(code => highlight.highlightBlock(code))
+  }
+
+  render () {
+    return <Container innerRef={this.onRef}>{this.props.children}</Container>
+  }
+}
+
+const Container = styled.div`
   p, ul, ol {
     margin: 12px 0;
   }
@@ -20,14 +40,5 @@ const UserFormattedContent = styled.div`
   code {
     font-family: monospace;
     font-size: 14px;
-    background: rgba(0, 0, 0, .1);
-  }
-
-  pre code {
-    display: block;
-    padding: 8px;
-    margin: 16px 0;
   }
 `
-
-export default UserFormattedContent
