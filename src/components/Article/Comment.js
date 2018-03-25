@@ -1,13 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import Markdown from 'react-remarkable'
-import format from 'date-fns/format'
 import randomColor from 'randomcolor'
-import decodeHtmlEntities from 'decode-html'
-import HintText from 'components/core/HintText'
-import CommentWrapper from 'components/Article/CommentWrapper'
 import UserContent from 'components/core/UserContent'
+import UserName from 'components/core/UserName'
+import FormattedDate from 'components/core/FormattedDate'
+import CaptionGroup from 'components/core/CaptionGroup'
+import CommentWrapper from 'components/Article/CommentWrapper'
 
 export default function Comment ({
   author,
@@ -15,20 +14,21 @@ export default function Comment ({
   body,
   depth,
   replies,
-  link_id
+  linkId
 }) {
   return (
     <Container>
-      <Color seed={depth} />
-      <div>
-        <HintText>
-          /u/{author} • {format(new Date(created_utc * 1000), 'DD/MM/YYYY')}
-        </HintText>
-      </div>
+      <Color
+        style={{
+          background: randomColor({ seed: depth })
+        }}
+      />
+      <CaptionGroup>
+        <UserName>{author}</UserName>
+        <FormattedDate>{new Date(created_utc * 1000)}</FormattedDate>
+      </CaptionGroup>
       <UserContent>
-        <Markdown>
-          {decodeHtmlEntities(body)}
-        </Markdown>
+        {body}
       </UserContent>
 
       <Replies>
@@ -36,11 +36,7 @@ export default function Comment ({
           ? replies.data.children.map(({ data }) => {
             return (
               <li key={data.id}>
-                <CommentWrapper
-                  {...data}
-                  depth={depth + 1}
-                  linkId={link_id}
-                  />
+                <CommentWrapper {...data} depth={depth + 1} linkId={linkId} />
               </li>
             )
           })
@@ -63,7 +59,8 @@ Comment.propTypes = {
       ).isRequired
     }).isRequired
   }).isRequired,
-  depth: PropTypes.number.isRequired
+  depth: PropTypes.number.isRequired,
+  linkId: PropTypes.string.isRequired
 }
 
 Comment.defaultProps = {
@@ -81,7 +78,6 @@ const Color = styled.div`
   top: 0;
   bottom: 0;
   width: 2px;
-  background: ${({ depth }) => randomColor({ seed: depth })};
   opacity: .2;
 `
 

@@ -41,7 +41,7 @@ Header.propTypes = {
 const Container = styled.header`
   display: flex;
   flex-direction: column-reverse;
-  background-image: linear-gradient( -8deg, #97ABFF 10%, #123597 100%);
+  background-image: linear-gradient(-8deg, #1a4ddb 10%, #123597 100%);
   box-shadow: 0 1px 12px rgba(18, 53, 151, .4);
   color: #fff;
   padding: 16px;

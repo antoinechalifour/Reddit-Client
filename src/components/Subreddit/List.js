@@ -2,9 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-import format from 'date-fns/format'
 import GildedIcon from 'react-icons/lib/md/star'
 import decodeHtmlEntities from 'decode-html'
+import SubredditName from 'components/core/SubredditName'
+import UserName from 'components/core/UserName'
+import FormattedDate from 'components/core/FormattedDate'
+import CaptionGroup from 'components/core/CaptionGroup'
 import Thumbnail from 'components/Subreddit/Thumbnail'
 import Tags from 'components/Subreddit/Tags'
 
@@ -13,26 +16,25 @@ export default function List ({ listing }) {
     <ul>
       {listing.children.map(({ data }) => (
         <Article key={data.id}>
-          <Link to={`/comments/${data.id}`}>
-            <Thumbnail {...data} />
+          <Thumbnail {...data} />
+          <div>
             <div>
-              <div>
+              <Title to={`/comments/${data.id}`}>
                 {decodeHtmlEntities(data.title)}
                 {data.gilded > 0
                   ? <Gilded><GildedIcon /> {data.gilded}</Gilded>
                   : null}
-              </div>
-              <Tags {...data} />
-              <Information>
-                <span>/{data.subreddit_name_prefixed}</span>
-                <span>/u/{data.author}</span>
-                <span>
-                  {format(new Date(data.created_utc * 1000), 'DD/MM/YYYY')}
-                </span>
-              </Information>
-
+              </Title>
             </div>
-          </Link>
+            <Tags {...data} />
+            <CaptionGroup>
+              <SubredditName>{data.subreddit}</SubredditName>
+              <UserName>{data.author}</UserName>
+              <FormattedDate>{new Date(data.created_utc * 1000)}</FormattedDate>
+              <span>{data.domain}</span>
+            </CaptionGroup>
+
+          </div>
         </Article>
       ))}
     </ul>
@@ -56,34 +58,24 @@ List.propTypes = {
 }
 
 const Article = styled.li`
-  a {
-    word-break: break-all;
-    padding: 12px;
-    color: inherit;
-    cursor: pointer;
-    text-decoration: none;
-    display: flex;
+  word-break: break-all;
+  padding: 12px;
+  color: inherit;
+  text-decoration: none;
+  display: flex;
 
-    > :last-child {
-      flex: 1;
-    }
+  > :last-child {
+    flex: 1;
+  }
 
-    > * + * {
-      margin-left: 12px;
-    }
+  > * + * {
+    margin-left: 12px;
   }
 `
 
-const Information = styled.div`
-  span {
-    opacity: .5;
-    font-size: 80%;
-  }
-
-  > span + span::before {
-    content: '•';
-    margin: 0 8px;
-  }
+const Title = styled(Link)`
+  text-decoration: none;
+  color: inherit;
 `
 
 const Gilded = styled.span`

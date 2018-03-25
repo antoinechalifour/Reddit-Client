@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import format from 'date-fns/format'
 import Layout from 'components/Article/Layout'
 import Header from 'components/core/Header'
 import Details from 'components/Article/Details'

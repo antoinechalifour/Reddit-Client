@@ -22,11 +22,11 @@ const Container = styled.div`
 `
 
 const LinkContainer = Container.extend`
-  background-image: linear-gradient( 135deg, #FD6E6A 10%, #FFC600 100%);
+  background-image: linear-gradient(135deg, #FD6E6A 10%, #FFC600 100%);
 `
 
 const SelfContainer = Container.extend`
-  background-image: linear-gradient( 135deg, #97ABFF 10%, #123597 100%);
+  background-image: linear-gradient(135deg, #1a4ddb 10%, #123597 100%);
 `
 
 const ImageContainer = Container.extend`

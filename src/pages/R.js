@@ -130,7 +130,7 @@ const FilterTabs = styled.ul`
   bottom: 100%;
   left: 8px;
   right: 8px;
-  background: #0e2974;
+  background: rgba(0, 0, 0, .45);
   color: #fff;
   justify-content: center;
   border-top-left-radius: 4px;

@@ -9,9 +9,9 @@ export default function CommentWrapper (props) {
       <ApiContext.Consumer>
         {({ api }) => (
           <MoreComments
+            api={api}
             commentIds={props.children}
             linkId={props.linkId}
-            api={api}
           />
         )}
       </ApiContext.Consumer>
