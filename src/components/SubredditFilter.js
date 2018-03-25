@@ -67,13 +67,13 @@ export default class SubredditFilter extends Component {
     return (
       <Fragment>
         <ListingPagination
-          base={`/r/${this.props.r}`}
+          base={`/r/${this.props.r}/${this.props.filter}`}
           listing={this.state.articles}
           listingParams={this.props.listingParams}
         />
         <ArticleList listing={this.state.articles} />
         <ListingPagination
-          base={`/r/${this.props.r}`}
+          base={`/r/${this.props.r}/${this.props.filter}`}
           listing={this.state.articles}
           listingParams={this.props.listingParams}
         />
