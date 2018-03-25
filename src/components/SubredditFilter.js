@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import ArticleList from './ArticleList'
 import ListingPagination from './ListingPagination'
+import Loader from './Loader'
 
 export default class SubredditFilter extends Component {
   static propTypes = {
@@ -60,7 +61,7 @@ export default class SubredditFilter extends Component {
 
   render () {
     if (this.isLoading) {
-      return <div>Loading...</div>
+      return <Loader />
     }
 
     return (

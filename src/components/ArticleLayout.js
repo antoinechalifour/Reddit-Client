@@ -21,5 +21,5 @@ const ArticleContainer = styled.div`
   max-width: 960px;
   margin: auto;
   position: relative;
-  top: -32px;
+  top: -40px;
 `

@@ -7,6 +7,7 @@ import randomColor from 'randomcolor'
 import decodeHtmlEntities from 'decode-html'
 import HintText from './HintText'
 import ArticleCommentWrapper from './ArticleCommentWrapper'
+import UserFormattedContent from './UserFormattedContent'
 
 export default function ArticleComment ({
   author,
@@ -24,9 +25,11 @@ export default function ArticleComment ({
           /u/{author} • {format(new Date(created_utc * 1000), 'DD/MM/YYYY')}
         </HintText>
       </div>
-      <Markdown>
-        {decodeHtmlEntities(body)}
-      </Markdown>
+      <UserFormattedContent>
+        <Markdown>
+          {decodeHtmlEntities(body)}
+        </Markdown>
+      </UserFormattedContent>
 
       <Replies>
         {replies && replies.data

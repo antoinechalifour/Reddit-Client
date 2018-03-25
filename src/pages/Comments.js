@@ -5,6 +5,7 @@ import ArticleLayout from '../components/ArticleLayout'
 import Header from '../components/Header'
 import ArticleDetails from '../components/ArticleDetails'
 import ArticleComments from '../components/ArticleComments'
+import Loader from '../components/Loader'
 
 function Comment ({
   author,
@@ -69,22 +70,25 @@ export default class Comments extends Component {
   }
 
   render () {
-    if (this.isLoading) {
-      return <div>Loading...</div>
-    }
-
-    const article = this.state.article
-    const comments = this.state.comments
-
     return (
       <ArticleLayout
-        renderHeader={() => <Header title={`/r/${article.data.subreddit}`} />}
-        renderArticle={() => (
-          <Fragment>
-            <ArticleDetails {...article} />
-            <ArticleComments {...comments} linkId={article.data.name} />
-          </Fragment>
-        )}
+        renderHeader={() => {
+          const title = this.isLoading
+            ? ''
+            : `/r/${this.state.article.data.subreddit}`
+
+          return <Header title={title} />
+        }}
+        renderArticle={() =>
+          (this.isLoading
+            ? <Loader />
+            : <Fragment>
+              <ArticleDetails {...this.state.article} />
+              <ArticleComments
+                {...this.state.comments}
+                linkId={this.state.article.data.name}
+                />
+            </Fragment>)}
       />
     )
   }

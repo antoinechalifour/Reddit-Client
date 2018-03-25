@@ -6,6 +6,7 @@ import Header from '../components/Header'
 import SubredditLayout from '../components/SubredditLayout'
 import SubredditDescription from '../components/SubredditDescription'
 import SubredditFilter from '../components/SubredditFilter'
+import Loader from '../components/Loader'
 
 export default class R extends Component {
   static propTypes = {
@@ -65,10 +66,6 @@ export default class R extends Component {
   }
 
   render () {
-    if (this.isLoading) {
-      return <div>Loading...</div>
-    }
-
     const tabs = [
       {
         label: 'All posts',
@@ -110,17 +107,20 @@ export default class R extends Component {
                 </Tab>
               ))}
             </FilterTabs>
-            <SubredditFilter
-              r={this.props.r}
-              filter={this.props.filter}
-              api={this.props.api}
-              listingParams={this.props.listingParams}
-            />
+            {this.isLoading
+              ? <Loader />
+              : <SubredditFilter
+                r={this.props.r}
+                filter={this.props.filter}
+                api={this.props.api}
+                listingParams={this.props.listingParams}
+                />}
           </Fragment>
         )}
-        renderRightSidebar={() => (
-          <SubredditDescription {...this.state.about} />
-        )}
+        renderRightSidebar={() =>
+          (this.isLoading
+            ? null
+            : <SubredditDescription {...this.state.about} />)}
       />
     )
   }

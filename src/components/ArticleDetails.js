@@ -6,6 +6,7 @@ import LinkIcon from 'react-icons/lib/md/link'
 import decodeHtmlEntities from 'decode-html'
 import Markdown from 'react-remarkable'
 import HintText from './HintText'
+import UserFormattedContent from './UserFormattedContent'
 
 export default function ArticleDetails ({ data }) {
   return (
@@ -20,7 +21,9 @@ export default function ArticleDetails ({ data }) {
 
       {data.selftext !== ''
         ? <Content>
-          <Markdown>{decodeHtmlEntities(data.selftext)}</Markdown>
+          <UserFormattedContent>
+            <Markdown>{decodeHtmlEntities(data.selftext)}</Markdown>
+          </UserFormattedContent>
         </Content>
         : null}
 
