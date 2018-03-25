@@ -31,7 +31,7 @@ export default function ArticleDetails ({ data }) {
         ? <ImagePost src={decodeHtmlEntities(data.url)} />
         : null}
 
-      {data.post_hint === 'link'
+      {data.post_hint === 'link' || (data.selftext === '' && data.url)
         ? <Content>
           <LinksContainer>
             <Link href={data.url} target='_blank' rel='noopener'>
