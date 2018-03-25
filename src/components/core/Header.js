@@ -47,7 +47,8 @@ const Container = styled.header`
   padding: 16px;
   padding-bottom: 48px;
 
-  svg {
+  a {
+    line-height: 0;
     margin-right: 16px;
   }
 
