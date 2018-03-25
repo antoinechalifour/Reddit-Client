@@ -19,11 +19,21 @@ export default class ArticleMoreComments extends Component {
   }
 
   loadMore = async () => {
-    this.setState({
-      more: await this.props.api.comments.moreChildren(
+    const things = []
+    let BATCH_SIZE = 50
+    const iterations = Math.ceil(this.props.commentIds.length / BATCH_SIZE)
+
+    for (let i = 0; i < iterations; i += 1) {
+      const batch = await this.props.api.comments.moreChildren(
         this.props.linkId,
-        this.props.commentIds
+        this.props.commentIds.slice(i * BATCH_SIZE, i * BATCH_SIZE + BATCH_SIZE)
       )
+
+      things.push(...batch.json.data.things)
+    }
+
+    this.setState({
+      more: things
     })
   }
 
@@ -34,7 +44,7 @@ export default class ArticleMoreComments extends Component {
 
     return (
       <Fragment>
-        {this.state.more.json.data.things.map(({ data }) => (
+        {this.state.more.map(({ data }) => (
           <ArticleCommentWrapper
             key={data.id}
             {...data}
