@@ -1,4 +1,7 @@
 import { stringify } from 'querystring'
+import hash from 'object-hash'
+import addMinutes from 'date-fns/add_minutes'
+import isBefore from 'date-fns/is_before'
 
 function removeUndefinedValues (obj) {
   const copy = { ...obj }
@@ -11,6 +14,36 @@ function removeUndefinedValues (obj) {
 
   return copy
 }
+
+const createHttpClient = function () {
+  const cache = {}
+
+  return async function (url, options = {}) {
+    const key = hash({ url, ...options })
+
+    if (cache[key]) {
+      const expirationDate = cache[key].expiresAt
+
+      if (isBefore(new Date(), expirationDate)) {
+        return Promise.resolve(cache[key].data)
+      } else {
+        delete cache[key]
+      }
+    }
+
+    const response = await fetch(url, options)
+    const body = await response.json()
+
+    cache[key] = {
+      data: body,
+      expiresAt: addMinutes(new Date(), 15)
+    }
+
+    return body
+  }
+}
+
+const http = createHttpClient()
 
 export default function createApi () {
   const baseUrl = 'https://www.reddit.com'
@@ -27,18 +60,16 @@ export default function createApi () {
     return `${buildUrl(path)}?${query}`
   }
 
-  async function best (options = {}) {
-    const response = await fetch(buildListingUrl('/best.json', options), {
+  function best (options = {}) {
+    return http(buildListingUrl('/best.json', options), {
       method: 'GET'
     })
-
-    return response.json()
   }
 
   async function commentsByArticleId (articleId) {
-    const response = await fetch(buildUrl(`/comments/${articleId}.json`))
-
-    const [articleListing, commentsListing] = await response.json()
+    const [articleListing, commentsListing] = await http(
+      buildUrl(`/comments/${articleId}.json`)
+    )
 
     return {
       article: articleListing.data.children[0],
@@ -46,89 +77,65 @@ export default function createApi () {
     }
   }
 
-  async function rContent (r, options = {}) {
-    const response = await fetch(buildListingUrl(`/r/${r}.json`, options), {
+  function rContent (r, options = {}) {
+    return http(buildListingUrl(`/r/${r}.json`, options), {
       method: 'GET'
     })
-
-    return response.json()
   }
 
-  async function rHot (r, options = {}) {
-    const response = await fetch(buildListingUrl(`/r/${r}/hot.json`, options), {
+  function rHot (r, options = {}) {
+    return http(buildListingUrl(`/r/${r}/hot.json`, options), {
       method: 'GET'
     })
-
-    return response.json()
   }
 
-  async function rNew (r, options = {}) {
-    const response = await fetch(buildListingUrl(`/r/${r}/new.json`, options), {
+  function rNew (r, options = {}) {
+    return http(buildListingUrl(`/r/${r}/new.json`, options), {
       method: 'GET'
     })
-
-    return response.json()
   }
 
-  async function rRising (r, options = {}) {
-    const response = await fetch(
-      buildListingUrl(`/r/${r}/rising.json`, options),
-      {
-        method: 'GET'
-      }
-    )
-
-    return response.json()
-  }
-
-  async function rControversial (r, options = {}) {
-    const response = await fetch(
-      buildListingUrl(`/r/${r}/controversial.json`, options),
-      {
-        method: 'GET'
-      }
-    )
-
-    return response.json()
-  }
-
-  async function rTop (r, options = {}) {
-    const response = await fetch(buildListingUrl(`/r/${r}/top.json`, options), {
+  function rRising (r, options = {}) {
+    return http(buildListingUrl(`/r/${r}/rising.json`, options), {
       method: 'GET'
     })
-
-    return response.json()
   }
 
-  async function rAbout (r) {
-    const response = await fetch(buildUrl(`/r/${r}/about.json`))
-
-    return response.json()
+  function rControversial (r, options = {}) {
+    return http(buildListingUrl(`/r/${r}/controversial.json`, options), {
+      method: 'GET'
+    })
   }
 
-  async function rSearch (query) {
+  function rTop (r, options = {}) {
+    return http(buildListingUrl(`/r/${r}/top.json`, options), {
+      method: 'GET'
+    })
+  }
+
+  function rAbout (r) {
+    return http(buildUrl(`/r/${r}/about.json`))
+  }
+
+  function rSearch (query) {
     const options = stringify({
       nsfw: true,
       q: query
     })
 
     const uri = `/subreddits/search.json?${options}`
-    const response = await fetch(buildUrl(uri), {
+    return http(buildUrl(uri), {
       method: 'GET'
     })
-
-    return response.json()
   }
 
-  async function moreChildren (linkId, commentIds) {
+  function moreChildren (linkId, commentIds) {
     const options = stringify({
       api_type: 'json',
       link_id: linkId,
       children: commentIds.join(',')
     })
-    const response = await fetch(buildUrl(`/api/morechildren.json?${options}`))
-
-    return response.json()
+    return http(buildUrl(`/api/morechildren.json?${options}`))
   }
 
   return {
