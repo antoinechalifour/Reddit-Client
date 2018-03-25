@@ -26,20 +26,14 @@ export default class RPage extends Component {
   }
 
   state = {
-    about: null,
-    content: null
+    about: null
   }
 
   componentDidMount () {
-    this.syncListing()
     this.syncAbout()
   }
 
   componentDidUpdate (prevProps) {
-    if (prevProps.listingParams !== this.props.listingParams) {
-      this.syncListing(this.props.listingParams)
-    }
-
     if (prevProps.r !== this.props.r) {
       this.syncAbout()
     }
@@ -51,18 +45,8 @@ export default class RPage extends Component {
     })
   }
 
-  async syncListing ({ before, after, count } = {}) {
-    const { data } = await this.props.api.r.r(this.props.r, {
-      before,
-      after,
-      count
-    })
-
-    this.setState({ content: data }, () => window.scrollTo(0, 0))
-  }
-
   get isLoading () {
-    return this.state.about === null || this.state.content === null
+    return this.state.about === null
   }
 
   render () {
@@ -140,6 +124,7 @@ const FilterTabs = styled.ul`
 const Tab = styled.li`
   border-bottom: 4px solid ${({ active }) => (active ? 'rgba(255, 255, 255, .8)' : 'transparent')};
   padding: 6px 12px;
+  text-transform: uppercase;
 
   & + li {
     margin-left: 8px;
