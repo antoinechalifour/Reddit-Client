@@ -35,4 +35,16 @@ const Container = styled.ul`
   padding: 12px;
   border-radius: 2px;
   box-shadow: 0 1px 6px rgba(0, 0, 0, .2);
+
+  code {
+    font-family: monospace;
+    font-size: 14px;
+    background: rgba(0, 0, 0, .1);
+  }
+
+  pre code {
+    display: block;
+    padding: 8px;
+    margin: 16px 0;
+  }
 `
