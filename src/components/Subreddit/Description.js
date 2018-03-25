@@ -3,18 +3,16 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import Markdown from 'react-remarkable'
 
-export default function SubredditDescription ({ data }) {
+export default function Description ({ data }) {
   return (
     <Container>
       <Title>{data.title}</Title>
-      <Description>
-        <Markdown>{data.description}</Markdown>
-      </Description>
+      <Markdown>{data.description}</Markdown>
     </Container>
   )
 }
 
-SubredditDescription.propTypes = {
+Description.propTypes = {
   data: PropTypes.shape({
     title: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired
@@ -23,14 +21,6 @@ SubredditDescription.propTypes = {
 
 const Container = styled.div`
   padding: 12px;
-`
-
-const Title = styled.h2`
-  text-transform: uppercase;
-  font-family: var(--typography-title);
-`
-
-const Description = styled.div`
   font-size: 85%;
   opacity: .75;
 
@@ -49,4 +39,9 @@ const Description = styled.div`
   ul {
     list-style-type: disc;
   }
+`
+
+const Title = styled.h2`
+  text-transform: uppercase;
+  font-family: var(--typography-title);
 `

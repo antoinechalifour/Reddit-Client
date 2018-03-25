@@ -1,10 +1,10 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import ArticleList from './ArticleList'
-import ListingPagination from './ListingPagination'
-import Loader from './Loader'
+import ListingPagination from 'components/core/ListingPagination'
+import Loader from 'components/core/Loader'
+import List from 'components/Subreddit/List'
 
-export default class SubredditFilter extends Component {
+export default class Filter extends Component {
   static propTypes = {
     filter: PropTypes.string.isRequired,
     api: PropTypes.shape({
@@ -71,7 +71,7 @@ export default class SubredditFilter extends Component {
           listing={this.state.articles}
           listingParams={this.props.listingParams}
         />
-        <ArticleList listing={this.state.articles} />
+        <List listing={this.state.articles} />
         <ListingPagination
           base={`/r/${this.props.r}/${this.props.filter}`}
           listing={this.state.articles}

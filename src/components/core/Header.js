@@ -2,8 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
-import SearchBox from './SearchBox'
-import ApiContext from './ApiContext'
+import ApiContext from 'components/core/ApiContext'
+import SearchBox from 'components/core/SearchBox'
 
 export default function Header ({ title }) {
   return (

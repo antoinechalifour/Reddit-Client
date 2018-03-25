@@ -1,16 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import ArticleCommentWrapper from './ArticleCommentWrapper'
-import HintText from './HintText'
+import HintText from 'components/core/HintText'
+import CommentWrapper from 'components/Article/CommentWrapper'
 
-export default function ArticleComments ({ linkId, data }) {
+export default function Comments ({ linkId, data }) {
   return (
     <Container>
       {data.children.length > 0
         ? data.children.map(({ data }) => (
           <li key={data.id}>
-            <ArticleCommentWrapper {...data} linkId={linkId} />
+            <CommentWrapper {...data} linkId={linkId} />
           </li>
           ))
         : <HintText>No comments</HintText>}
@@ -18,7 +18,7 @@ export default function ArticleComments ({ linkId, data }) {
   )
 }
 
-ArticleComments.propTypes = {
+Comments.propTypes = {
   linkId: PropTypes.string.isRequired,
   data: PropTypes.shape({
     children: PropTypes.arrayOf(

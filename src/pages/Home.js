@@ -1,11 +1,11 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import SubredditLayout from '../components/SubredditLayout'
-import Header from '../components/Header'
-import ArticleList from '../components/ArticleList'
-import ListingPagination from '../components/ListingPagination'
+import Header from 'components/core/Header'
+import ListingPagination from 'components/core/ListingPagination'
+import Layout from 'components/Subreddit/Layout'
+import List from 'components/Subreddit/List'
 
-export default class Home extends Component {
+export default class HomePage extends Component {
   static propTypes = {
     api: PropTypes.shape({
       best: PropTypes.func.isRequired
@@ -47,7 +47,7 @@ export default class Home extends Component {
     }
 
     return (
-      <SubredditLayout
+      <Layout
         renderHeader={() => <Header title='Welcome to Reddit' />}
         renderContent={() => (
           <Fragment>
@@ -55,7 +55,7 @@ export default class Home extends Component {
               listing={this.state.listing}
               listingParams={this.props.listingParams}
             />
-            <ArticleList listing={this.state.listing} />
+            <List listing={this.state.listing} />
             <ListingPagination
               listing={this.state.listing}
               listingParams={this.props.listingParams}

@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const allChips = [
+const allTags = [
   {
     attr: 'archived',
     label: 'Archived'
@@ -48,16 +48,16 @@ const allChips = [
   }
 ]
 
-export default function ArticleChips (props) {
-  const chips = allChips.filter(c => props[c.attr])
+export default function Tags (props) {
+  const tags = allTags.filter(c => props[c.attr])
 
-  if (chips.length === 0) {
+  if (tags.length === 0) {
     return null
   }
 
   return (
     <Container>
-      {chips.map(c => <Chips key={c.attr} style={c.style}>{c.label}</Chips>)}
+      {tags.map(c => <Tag key={c.attr} style={c.style}>{c.label}</Tag>)}
     </Container>
   )
 }
@@ -66,7 +66,7 @@ const Container = styled.ul`
   display: flex;
 `
 
-const Chips = styled.li`
+const Tag = styled.li`
   background: rgba(0, 0, 0, .24);
   font-size: 60%;
   padding: 1px 4px;

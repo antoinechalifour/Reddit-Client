@@ -2,11 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom'
 import styled from 'styled-components'
-import Home from './pages/Home'
-import Comments from './pages/Comments'
-import R from './pages/R'
-import { getListingFromQuerystring } from './util/listings'
-import ApiContext from './components/ApiContext'
+import { getListingFromQuerystring } from 'util/listings'
+import Home from 'pages/Home'
+import Comments from 'pages/Comments'
+import R from 'pages/R'
+import ApiContext from 'components/core/ApiContext'
 
 export default function App ({ api }) {
   return (

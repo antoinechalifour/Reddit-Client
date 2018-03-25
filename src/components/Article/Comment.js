@@ -5,11 +5,11 @@ import Markdown from 'react-remarkable'
 import format from 'date-fns/format'
 import randomColor from 'randomcolor'
 import decodeHtmlEntities from 'decode-html'
-import HintText from './HintText'
-import ArticleCommentWrapper from './ArticleCommentWrapper'
-import UserFormattedContent from './UserFormattedContent'
+import HintText from 'components/core/HintText'
+import CommentWrapper from 'components/Article/CommentWrapper'
+import UserContent from 'components/core/UserContent'
 
-export default function ArticleComment ({
+export default function Comment ({
   author,
   created_utc,
   body,
@@ -25,18 +25,18 @@ export default function ArticleComment ({
           /u/{author} • {format(new Date(created_utc * 1000), 'DD/MM/YYYY')}
         </HintText>
       </div>
-      <UserFormattedContent>
+      <UserContent>
         <Markdown>
           {decodeHtmlEntities(body)}
         </Markdown>
-      </UserFormattedContent>
+      </UserContent>
 
       <Replies>
         {replies && replies.data
           ? replies.data.children.map(({ data }) => {
             return (
               <li key={data.id}>
-                <ArticleCommentWrapper
+                <CommentWrapper
                   {...data}
                   depth={depth + 1}
                   linkId={link_id}
@@ -50,7 +50,7 @@ export default function ArticleComment ({
   )
 }
 
-ArticleComment.propTypes = {
+Comment.propTypes = {
   author: PropTypes.string.isRequired,
   created_utc: PropTypes.number.isRequired,
   body: PropTypes.string.isRequired,
@@ -66,7 +66,7 @@ ArticleComment.propTypes = {
   depth: PropTypes.number.isRequired
 }
 
-ArticleComment.defaultProps = {
+Comment.defaultProps = {
   depth: 0
 }
 

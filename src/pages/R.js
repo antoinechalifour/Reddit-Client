@@ -2,13 +2,13 @@ import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { NavLink } from 'react-router-dom'
-import Header from '../components/Header'
-import SubredditLayout from '../components/SubredditLayout'
-import SubredditDescription from '../components/SubredditDescription'
-import SubredditFilter from '../components/SubredditFilter'
-import Loader from '../components/Loader'
+import Header from 'components/core/Header'
+import Loader from 'components/core/Loader'
+import Layout from 'components/Subreddit/Layout'
+import Description from 'components/Subreddit/Description'
+import Filter from 'components/Subreddit/Filter'
 
-export default class R extends Component {
+export default class RPage extends Component {
   static propTypes = {
     api: PropTypes.shape({
       r: PropTypes.shape({
@@ -94,7 +94,7 @@ export default class R extends Component {
     ]
 
     return (
-      <SubredditLayout
+      <Layout
         renderHeader={() => <Header title={`/r/${this.props.r}`} />}
         renderContent={() => (
           <Fragment>
@@ -109,7 +109,7 @@ export default class R extends Component {
             </FilterTabs>
             {this.isLoading
               ? <Loader />
-              : <SubredditFilter
+              : <Filter
                 r={this.props.r}
                 filter={this.props.filter}
                 api={this.props.api}
@@ -118,9 +118,7 @@ export default class R extends Component {
           </Fragment>
         )}
         renderRightSidebar={() =>
-          (this.isLoading
-            ? null
-            : <SubredditDescription {...this.state.about} />)}
+          (this.isLoading ? null : <Description {...this.state.about} />)}
       />
     )
   }

@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-export default function ArticleLayout ({ renderHeader, renderArticle }) {
+export default function Layout ({ renderHeader, renderArticle }) {
   return (
     <div>
       <div>{renderHeader()}</div>
@@ -11,7 +11,7 @@ export default function ArticleLayout ({ renderHeader, renderArticle }) {
   )
 }
 
-ArticleLayout.propTypes = {
+Layout.propTypes = {
   renderHeader: PropTypes.func.isRequired,
   renderArticle: PropTypes.func.isRequired
 }

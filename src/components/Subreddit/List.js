@@ -5,16 +5,16 @@ import styled from 'styled-components'
 import format from 'date-fns/format'
 import GildedIcon from 'react-icons/lib/md/star'
 import decodeHtmlEntities from 'decode-html'
-import ArticleThumbnail from './ArticleThumbnail'
-import ArticleChips from './ArticleChips'
+import Thumbnail from 'components/Subreddit/Thumbnail'
+import Tags from 'components/Subreddit/Tags'
 
-export default function ArticleList ({ listing }) {
+export default function List ({ listing }) {
   return (
     <ul>
       {listing.children.map(({ data }) => (
         <Article key={data.id}>
           <Link to={`/comments/${data.id}`}>
-            <ArticleThumbnail {...data} />
+            <Thumbnail {...data} />
             <div>
               <div>
                 {decodeHtmlEntities(data.title)}
@@ -22,7 +22,7 @@ export default function ArticleList ({ listing }) {
                   ? <Gilded><GildedIcon /> {data.gilded}</Gilded>
                   : null}
               </div>
-              <ArticleChips {...data} />
+              <Tags {...data} />
               <Information>
                 <span>/{data.subreddit_name_prefixed}</span>
                 <span>/u/{data.author}</span>
@@ -39,7 +39,7 @@ export default function ArticleList ({ listing }) {
   )
 }
 
-ArticleList.propTypes = {
+List.propTypes = {
   listing: PropTypes.shape({
     children: PropTypes.arrayOf(
       PropTypes.shape({

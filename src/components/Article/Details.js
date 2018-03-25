@@ -5,10 +5,10 @@ import format from 'date-fns/format'
 import LinkIcon from 'react-icons/lib/md/link'
 import decodeHtmlEntities from 'decode-html'
 import Markdown from 'react-remarkable'
-import HintText from './HintText'
-import UserFormattedContent from './UserFormattedContent'
+import HintText from 'components/core/HintText'
+import UserContent from 'components/core/UserContent'
 
-export default function ArticleDetails ({ data }) {
+export default function Details ({ data }) {
   return (
     <Container>
       <Header>
@@ -21,9 +21,9 @@ export default function ArticleDetails ({ data }) {
 
       {data.selftext !== ''
         ? <Content>
-          <UserFormattedContent>
+          <UserContent>
             <Markdown>{decodeHtmlEntities(data.selftext)}</Markdown>
-          </UserFormattedContent>
+          </UserContent>
         </Content>
         : null}
 
@@ -63,7 +63,7 @@ export default function ArticleDetails ({ data }) {
   )
 }
 
-ArticleDetails.propTypes = {
+Details.propTypes = {
   data: PropTypes.shape({
     title: PropTypes.string.isRequired,
     author: PropTypes.string.isRequired,

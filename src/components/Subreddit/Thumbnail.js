@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import LinkIcon from 'react-icons/lib/md/link'
 import SelfIcon from 'react-icons/lib/md/textsms'
@@ -36,7 +37,7 @@ const ImageContainer = Container.extend`
   }
 `
 
-export default function ArticleThumbnail ({ post_hint, ...rest }) {
+export default function Thumbnail ({ post_hint, title, preview }) {
   switch (post_hint) {
     case 'link':
       return (
@@ -51,8 +52,8 @@ export default function ArticleThumbnail ({ post_hint, ...rest }) {
       return (
         <ImageContainer>
           <img
-            src={decodeHtmlEntities(rest.preview.images[0].resolutions[0].url)}
-            alt={`Thumbnail for "${rest.title}"`}
+            src={decodeHtmlEntities(preview.images[0].resolutions[0].url)}
+            alt={`Thumbnail for "${title}"`}
           />
         </ImageContainer>
       )
@@ -64,4 +65,18 @@ export default function ArticleThumbnail ({ post_hint, ...rest }) {
         </SelfContainer>
       )
   }
+}
+
+Thumbnail.propTypes = {
+  post_hint: PropTypes.string,
+  title: PropTypes.string.isRequired,
+  preview: PropTypes.shape({
+    images: PropTypes.arrayOf(
+      PropTypes.shape({
+        resolutions: PropTypes.arrayOf({
+          url: PropTypes.string.isRequired
+        }).isRequired
+      })
+    ).isRequired
+  })
 }

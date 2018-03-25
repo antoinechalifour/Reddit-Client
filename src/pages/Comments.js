@@ -1,50 +1,13 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import format from 'date-fns/format'
-import ArticleLayout from '../components/ArticleLayout'
-import Header from '../components/Header'
-import ArticleDetails from '../components/ArticleDetails'
-import ArticleComments from '../components/ArticleComments'
-import Loader from '../components/Loader'
+import Layout from 'components/Article/Layout'
+import Header from 'components/core/Header'
+import Details from 'components/Article/Details'
+import Comments from 'components/Article/Comments'
+import Loader from 'components/core/Loader'
 
-function Comment ({
-  author,
-  score,
-  body,
-  edited = false,
-  stickied = false,
-  created_utc,
-  replies,
-  depth = 0
-}) {
-  return (
-    <div>
-      <div>
-        <div>Author: {author}</div>
-        <div>Score: {score}</div>
-        <div>Body: {body}</div>
-        <div>Edited: {edited.toString()}</div>
-        <div>Stickied: {stickied.toString()}</div>
-        <div>
-          Created at: {format(new Date(created_utc * 1000), 'DD/MM/YYYY')}
-        </div>
-      </div>
-      <div style={{ paddingLeft: `${6 * depth}px` }}>
-        <ul>
-          {replies &&
-            replies.data &&
-            replies.data.children.map(({ data }) => (
-              <li key={data.id}>
-                <Comment {...data} depth={depth + 1} />
-              </li>
-            ))}
-        </ul>
-      </div>
-    </div>
-  )
-}
-
-export default class Comments extends Component {
+export default class CommentsPage extends Component {
   static propTypes = {
     api: PropTypes.shape({
       comments: PropTypes.shape({
@@ -71,7 +34,7 @@ export default class Comments extends Component {
 
   render () {
     return (
-      <ArticleLayout
+      <Layout
         renderHeader={() => {
           const title = this.isLoading
             ? ''
@@ -83,8 +46,8 @@ export default class Comments extends Component {
           (this.isLoading
             ? <Loader />
             : <Fragment>
-              <ArticleDetails {...this.state.article} />
-              <ArticleComments
+              <Details {...this.state.article} />
+              <Comments
                 {...this.state.comments}
                 linkId={this.state.article.data.name}
                 />

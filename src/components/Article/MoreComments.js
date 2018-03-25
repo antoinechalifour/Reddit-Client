@@ -1,9 +1,9 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import ArticleCommentWrapper from './ArticleCommentWrapper'
+import CommentWrapper from 'components/Article/CommentWrapper'
 
-export default class ArticleMoreComments extends Component {
+export default class MoreComments extends Component {
   static propTypes = {
     commentIds: PropTypes.arrayOf(PropTypes.string).isRequired,
     linkId: PropTypes.string.isRequired,
@@ -45,11 +45,7 @@ export default class ArticleMoreComments extends Component {
     return (
       <Fragment>
         {this.state.more.map(({ data }) => (
-          <ArticleCommentWrapper
-            key={data.id}
-            {...data}
-            linkId={this.props.linkId}
-          />
+          <CommentWrapper key={data.id} {...data} linkId={this.props.linkId} />
         ))}
       </Fragment>
     )

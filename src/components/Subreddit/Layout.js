@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-export default function SubredditLayout ({
+export default function Layout ({
   renderHeader,
   renderContent,
   renderRightSidebar
@@ -22,7 +22,7 @@ export default function SubredditLayout ({
   )
 }
 
-SubredditLayout.propTypes = {
+Layout.propTypes = {
   renderHeader: PropTypes.func.isRequired,
   renderContent: PropTypes.func.isRequired
 }

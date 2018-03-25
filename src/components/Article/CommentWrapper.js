@@ -1,14 +1,14 @@
 import React from 'react'
-import ApiContext from './ApiContext'
-import ArticleComment from './ArticleComment'
-import ArticleMoreComments from './ArticleMoreComments'
+import ApiContext from 'components/core/ApiContext'
+import Comment from 'components/Article/Comment'
+import MoreComments from 'components/Article/MoreComments'
 
-export default function ArticleCommentWrapper (props) {
+export default function CommentWrapper (props) {
   if (Array.isArray(props.children)) {
     return (
       <ApiContext.Consumer>
         {({ api }) => (
-          <ArticleMoreComments
+          <MoreComments
             commentIds={props.children}
             linkId={props.linkId}
             api={api}
@@ -18,5 +18,5 @@ export default function ArticleCommentWrapper (props) {
     )
   }
 
-  return <ArticleComment {...props} />
+  return <Comment {...props} />
 }

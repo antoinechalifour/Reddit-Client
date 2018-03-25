@@ -5,10 +5,7 @@ import { stringify } from 'querystring'
 import { Link } from 'react-router-dom'
 import PreviousIcon from 'react-icons/lib/md/navigate-before'
 import NextIcon from 'react-icons/lib/md/navigate-next'
-import {
-  getPreviousListingParams,
-  getNextListingParams
-} from '../util/listings'
+import { getPreviousListingParams, getNextListingParams } from 'util/listings'
 
 export default class ListingPagination extends Component {
   static propTypes = {
