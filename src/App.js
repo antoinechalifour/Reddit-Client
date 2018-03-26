@@ -6,59 +6,83 @@ import { getListingFromQuerystring } from 'util/listings'
 import Home from 'pages/Home'
 import Comments from 'pages/Comments'
 import R from 'pages/R'
+import Oauth from 'pages/Oauth'
+import AccountProvider from 'components/core/AccountProvider'
 import ApiContext from 'components/core/ApiContext'
+import AccountContext from 'components/core/AccountContext'
 
 export default function App ({ api }) {
   return (
-    <StyleProvider>
-      <ApiContext.Provider value={{ api }}>
-        <BrowserRouter>
-          <Switch>
-            <Route
-              exact
-              path='/'
-              render={({ history }) => (
-                <Home
-                  api={api}
-                  listingParams={getListingFromQuerystring(
-                    history.location.search
-                  )}
-                />
-              )}
-            />
-            <Route
-              exact
-              path='/r/:r/:filter'
-              render={({ history, match }) => (
-                <R
-                  r={match.params.r}
-                  filter={match.params.filter}
-                  api={api}
-                  listingParams={getListingFromQuerystring(
-                    history.location.search
-                  )}
-                />
-              )}
-            />
-            <Route
-              exact
-              path='/r/:r'
-              render={props => (
-                <Redirect to={`/r/${props.match.params.r}/all`} />
-              )}
-            />
-            <Route
-              exact
-              path='/comments/:id'
-              render={({ match }) => (
-                <Comments api={api} articleId={match.params.id} />
-              )}
-            />
-            <Route render={() => <div>Not found :'(</div>} />
-          </Switch>
-        </BrowserRouter>
-      </ApiContext.Provider>
-    </StyleProvider>
+    <AccountProvider>
+      <StyleProvider>
+        <ApiContext.Provider value={{ api }}>
+          <BrowserRouter>
+            <Switch>
+              <Route
+                exact
+                path='/'
+                render={({ history }) => (
+                  <Home
+                    api={api}
+                    listingParams={getListingFromQuerystring(
+                      history.location.search
+                    )}
+                  />
+                )}
+              />
+              <Route
+                exact
+                path='/r/:r/:filter'
+                render={({ history, match }) => (
+                  <R
+                    r={match.params.r}
+                    filter={match.params.filter}
+                    api={api}
+                    listingParams={getListingFromQuerystring(
+                      history.location.search
+                    )}
+                  />
+                )}
+              />
+              <Route
+                exact
+                path='/r/:r'
+                render={props => (
+                  <Redirect to={`/r/${props.match.params.r}/all`} />
+                )}
+              />
+              <Route
+                exact
+                path='/comments/:id'
+                render={({ match }) => (
+                  <Comments api={api} articleId={match.params.id} />
+                )}
+              />
+              <Route
+                exact
+                path='/oauth'
+                render={({ location }) => {
+                  const params = new URLSearchParams(location.search)
+
+                  return (
+                    <AccountContext.Consumer>
+                      {account => (
+                        <Oauth
+                          api={api}
+                          code={params.get('code')}
+                          account={account}
+                        />
+                      )}
+                    </AccountContext.Consumer>
+                  )
+                }}
+              />
+              <Route render={() => <div>Not found :'(</div>} />
+            </Switch>
+          </BrowserRouter>
+        </ApiContext.Provider>
+      </StyleProvider>
+    </AccountProvider>
   )
 }
 

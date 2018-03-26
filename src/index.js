@@ -8,6 +8,8 @@ import Api from './api'
 
 const api = Api()
 
+api.setAccessToken(localStorage.getItem('accessToken', null))
+
 ReactDOM.render(<App api={api} />, document.getElementById('root'))
 registerServiceWorker()
 

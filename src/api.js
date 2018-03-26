@@ -20,6 +20,7 @@ const createHttpClient = function () {
 
   return async function (url, options = {}) {
     const key = hash({ url, ...options })
+    console.log(options)
 
     if (cache[key]) {
       const expirationDate = cache[key].expiresAt
@@ -47,9 +48,15 @@ const http = createHttpClient()
 
 export default function createApi () {
   const baseUrl = 'https://www.reddit.com'
+  const authUrl = 'https://oauth.reddit.com'
+  let accessToken
 
-  function buildUrl (path) {
+  function buildPublicUrl (path) {
     return `${baseUrl}${path}`
+  }
+
+  function buildAuthenticatedUrl (path) {
+    return `${authUrl}${path}`
   }
 
   function buildListingUrl (path, { after, before, count = 0, limit = 25 }) {
@@ -57,18 +64,31 @@ export default function createApi () {
       removeUndefinedValues({ after, before, count, limit })
     )
 
-    return `${buildUrl(path)}?${query}`
+    return `${buildPublicUrl(path)}?${query}`
+  }
+
+  function buildOptions (overrides = {}) {
+    const headers = {}
+
+    if (accessToken) {
+      headers['Authorization'] = `bearer ${accessToken}`
+    }
+
+    return {
+      headers,
+      ...overrides
+    }
   }
 
   function best (options = {}) {
-    return http(buildListingUrl('/best.json', options), {
+    return http(buildListingUrl('/best.json', buildOptions(options)), {
       method: 'GET'
     })
   }
 
   async function commentsByArticleId (articleId) {
     const [articleListing, commentsListing] = await http(
-      buildUrl(`/comments/${articleId}.json`)
+      buildPublicUrl(`/comments/${articleId}.json`)
     )
 
     return {
@@ -78,43 +98,46 @@ export default function createApi () {
   }
 
   function rContent (r, options = {}) {
-    return http(buildListingUrl(`/r/${r}.json`, options), {
+    return http(buildListingUrl(`/r/${r}.json`, buildOptions(options)), {
       method: 'GET'
     })
   }
 
   function rHot (r, options = {}) {
-    return http(buildListingUrl(`/r/${r}/hot.json`, options), {
+    return http(buildListingUrl(`/r/${r}/hot.json`, buildOptions(options)), {
       method: 'GET'
     })
   }
 
   function rNew (r, options = {}) {
-    return http(buildListingUrl(`/r/${r}/new.json`, options), {
+    return http(buildListingUrl(`/r/${r}/new.json`, buildOptions(options)), {
       method: 'GET'
     })
   }
 
   function rRising (r, options = {}) {
-    return http(buildListingUrl(`/r/${r}/rising.json`, options), {
+    return http(buildListingUrl(`/r/${r}/rising.json`, buildOptions(options)), {
       method: 'GET'
     })
   }
 
   function rControversial (r, options = {}) {
-    return http(buildListingUrl(`/r/${r}/controversial.json`, options), {
-      method: 'GET'
-    })
+    return http(
+      buildListingUrl(`/r/${r}/controversial.json`, buildOptions(options)),
+      {
+        method: 'GET'
+      }
+    )
   }
 
   function rTop (r, options = {}) {
-    return http(buildListingUrl(`/r/${r}/top.json`, options), {
+    return http(buildListingUrl(`/r/${r}/top.json`, buildOptions(options)), {
       method: 'GET'
     })
   }
 
   function rAbout (r) {
-    return http(buildUrl(`/r/${r}/about.json`))
+    return http(buildPublicUrl(`/r/${r}/about.json`))
   }
 
   function rSearch (query) {
@@ -124,7 +147,7 @@ export default function createApi () {
     })
 
     const uri = `/subreddits/search.json?${options}`
-    return http(buildUrl(uri), {
+    return http(buildPublicUrl(uri), {
       method: 'GET'
     })
   }
@@ -135,7 +158,39 @@ export default function createApi () {
       link_id: linkId,
       children: commentIds.join(',')
     })
-    return http(buildUrl(`/api/morechildren.json?${options}`))
+    return http(buildPublicUrl(`/api/morechildren.json?${options}`))
+  }
+
+  async function getTokenFromCode (clientId, code, redirectUri) {
+    const headers = {
+      Authorization: `Basic ${btoa(`${clientId}:${''}`)}`
+    }
+    const form = new FormData()
+
+    form.append('grant_type', 'authorization_code')
+    form.append('code', code)
+    form.append('redirect_uri', redirectUri)
+
+    const response = await fetch(buildPublicUrl('/api/v1/access_token'), {
+      method: 'POST',
+      headers,
+      body: form
+    })
+
+    return response.json()
+  }
+
+  async function me () {
+    return http(
+      buildAuthenticatedUrl('/api/v1/me'),
+      buildOptions({
+        method: 'GET'
+      })
+    )
+  }
+
+  function setAccessToken (token) {
+    accessToken = token
   }
 
   return {
@@ -153,6 +208,13 @@ export default function createApi () {
       top: rTop,
       about: rAbout,
       search: rSearch
-    }
+    },
+    oauth: {
+      getTokenFromCode
+    },
+    user: {
+      me
+    },
+    setAccessToken
   }
 }

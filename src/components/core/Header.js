@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import ApiContext from 'components/core/ApiContext'
+import AccountContext from 'components/core/AccountContext'
 import SearchBox from 'components/core/SearchBox'
+import Account from 'components/core/AccountSummary'
 
 export default function Header ({ title }) {
   return (
@@ -25,11 +27,22 @@ export default function Header ({ title }) {
 
       <ApiContext.Consumer>
         {({ api }) => (
-          <SearchContainer>
-            <SearchBox api={api} />
-          </SearchContainer>
+          <Fragment>
+            <SearchContainer>
+              <SearchBox api={api} />
+            </SearchContainer>
+            <AccountContext.Consumer>
+              {account =>
+                (account.refreshToken
+                  ? <Account api={api} account={account} />
+                  : <a href='https://www.reddit.com/api/v1/authorize?client_id=GDObwCGoh5qWdg&response_type=code&state=_&redirect_uri=http://localhost:3000/oauth&duration=permanent&scope=identity edit history mysubreddits read save submit subscribe vote'>
+                      Login
+                    </a>)}
+            </AccountContext.Consumer>
+          </Fragment>
         )}
       </ApiContext.Consumer>
+
     </Container>
   )
 }
@@ -67,7 +80,7 @@ const Container = styled.header`
 
   @media (min-width: 600px) {
     flex-direction: row;
-    align-items: center;
+    align-items: flex-start;
     padding-bottom: 96px;
   }
 `
@@ -77,7 +90,8 @@ const SearchContainer = styled.div`
   margin-bottom: 12px;
 
   @media (min-width: 600px) {
-    justify-self: flex-end;
+    align-self: flex-start;
+    margin-bottom: 0;
   }
 
 `
