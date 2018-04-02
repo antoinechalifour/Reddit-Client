@@ -32,7 +32,7 @@ export default function Comment ({
       </UserContent>
 
       <Replies>
-        {replies && replies.data
+        {replies
           ? replies.data.children.map(({ data }) => {
             return (
               <li key={data.id}>
@@ -58,7 +58,7 @@ Comment.propTypes = {
         })
       ).isRequired
     }).isRequired
-  }).isRequired,
+  }),
   depth: PropTypes.number.isRequired,
   linkId: PropTypes.string.isRequired
 }

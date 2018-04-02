@@ -18,5 +18,8 @@ export default function CommentWrapper (props) {
     )
   }
 
-  return <Comment {...props} />
+  // Fix prop types because the API sometimes returns an empty string??
+  const replies = typeof props.replies === 'string' ? undefined : props.replies
+
+  return <Comment {...props} replies={replies} />
 }
