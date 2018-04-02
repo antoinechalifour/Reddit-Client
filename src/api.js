@@ -20,7 +20,6 @@ const createHttpClient = function () {
 
   return async function (url, options = {}) {
     const key = hash({ url, ...options })
-    console.log(options)
 
     if (cache[key]) {
       const expirationDate = cache[key].expiresAt
