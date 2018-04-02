@@ -3,13 +3,10 @@ import PropTypes from 'prop-types'
 import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom'
 import styled from 'styled-components'
 import { getListingFromQuerystring } from 'util/listings'
-import Home from 'pages/Home'
-import Comments from 'pages/Comments'
-import R from 'pages/R'
-import Oauth from 'pages/Oauth'
 import AccountProvider from 'components/core/AccountProvider'
 import ApiContext from 'components/core/ApiContext'
 import AccountContext from 'components/core/AccountContext'
+import LoadPage from 'pages/LoadPage'
 
 export default function App ({ api }) {
   return (
@@ -22,26 +19,36 @@ export default function App ({ api }) {
                 exact
                 path='/'
                 render={({ history }) => (
-                  <Home
-                    api={api}
-                    listingParams={getListingFromQuerystring(
-                      history.location.search
-                    )}
-                  />
+                  <LoadPage loader={() => import('pages/Home')}>
+                    {component =>
+                      (component
+                        ? <component.default
+                          api={api}
+                          listingParams={getListingFromQuerystring(
+                              history.location.search
+                            )}
+                          />
+                        : null)}
+                  </LoadPage>
                 )}
               />
               <Route
                 exact
                 path='/r/:r/:filter'
                 render={({ history, match }) => (
-                  <R
-                    r={match.params.r}
-                    filter={match.params.filter}
-                    api={api}
-                    listingParams={getListingFromQuerystring(
-                      history.location.search
-                    )}
-                  />
+                  <LoadPage loader={() => import('pages/R')}>
+                    {component =>
+                      (component
+                        ? <component.default
+                          r={match.params.r}
+                          filter={match.params.filter}
+                          api={api}
+                          listingParams={getListingFromQuerystring(
+                              history.location.search
+                            )}
+                          />
+                        : null)}
+                  </LoadPage>
                 )}
               />
               <Route
@@ -55,7 +62,15 @@ export default function App ({ api }) {
                 exact
                 path='/comments/:id'
                 render={({ match }) => (
-                  <Comments api={api} articleId={match.params.id} />
+                  <LoadPage loader={() => import('pages/Comments')}>
+                    {component =>
+                      (component
+                        ? <component.default
+                          api={api}
+                          articleId={match.params.id}
+                          />
+                        : null)}
+                  </LoadPage>
                 )}
               />
               <Route
@@ -65,15 +80,20 @@ export default function App ({ api }) {
                   const params = new URLSearchParams(location.search)
 
                   return (
-                    <AccountContext.Consumer>
-                      {account => (
-                        <Oauth
-                          api={api}
-                          code={params.get('code')}
-                          account={account}
-                        />
-                      )}
-                    </AccountContext.Consumer>
+                    <LoadPage loader={() => import('pages/Oauth')}>
+                      {component =>
+                        (component
+                          ? <AccountContext.Consumer>
+                            {account => (
+                              <component.default
+                                api={api}
+                                code={params.get('code')}
+                                account={account}
+                                />
+                              )}
+                          </AccountContext.Consumer>
+                          : null)}
+                    </LoadPage>
                   )
                 }}
               />
