@@ -48,8 +48,10 @@ export default class Filter extends Component {
   }
 
   async syncContent () {
-    const method = this.props.api.r[this.props.filter] ? this.props.filter : 'r'
-    const { data } = await this.props.api.r[method](
+    const method = this.props.api.listings[this.props.filter]
+      ? this.props.filter
+      : 'hot'
+    const { data } = await this.props.api.listings[method](
       this.props.r,
       this.props.listingParams
     )

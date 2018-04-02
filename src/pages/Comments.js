@@ -9,8 +9,8 @@ import Loader from 'components/core/Loader'
 export default class CommentsPage extends Component {
   static propTypes = {
     api: PropTypes.shape({
-      comments: PropTypes.shape({
-        byArticleId: PropTypes.func.isRequired
+      listings: PropTypes.shape({
+        comments: PropTypes.func.isRequired
       }).isRequired
     }).isRequired,
     articleId: PropTypes.string.isRequired
@@ -22,9 +22,16 @@ export default class CommentsPage extends Component {
   }
 
   async componentDidMount () {
-    this.setState(
-      await this.props.api.comments.byArticleId(this.props.articleId)
-    )
+    const [
+      articleListing,
+      commentsListing
+    ] = await this.props.api.listings.comments(this.props.articleId)
+    const article = articleListing.data.children[0]
+
+    this.setState({
+      article,
+      comments: commentsListing
+    })
   }
 
   get isLoading () {

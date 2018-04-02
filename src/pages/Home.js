@@ -8,7 +8,9 @@ import List from 'components/Subreddit/List'
 export default class HomePage extends Component {
   static propTypes = {
     api: PropTypes.shape({
-      best: PropTypes.func.isRequired
+      listings: PropTypes.shape({
+        best: PropTypes.func.isRequired
+      }).isRequired
     }).isRequired,
     listingParams: PropTypes.shape({
       before: PropTypes.string,
@@ -32,7 +34,11 @@ export default class HomePage extends Component {
   }
 
   async syncListing ({ before, after, count } = {}) {
-    const { data } = await this.props.api.best({ before, after, count })
+    const { data } = await this.props.api.listings.best({
+      before,
+      after,
+      count
+    })
 
     this.setState({ listing: data }, () => window.scrollTo(0, 0))
   }

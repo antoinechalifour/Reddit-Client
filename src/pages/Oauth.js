@@ -17,20 +17,7 @@ class OauthPage extends Component {
   }
 
   async componentDidMount () {
-    const {
-      access_token: accessToken,
-      refresh_token: refreshToken
-    } = await this.props.api.oauth.getTokenFromCode(
-      'GDObwCGoh5qWdg',
-      this.props.code,
-      'http://localhost:3000/oauth'
-    )
-
-    localStorage.setItem('accessToken', accessToken)
-    localStorage.setItem('refreshToken', refreshToken)
-
-    this.props.account.setAccessToken(accessToken)
-    this.props.account.setRefreshToken(refreshToken)
+    await this.props.api.oauth.getTokenFromCode(this.props.code)
 
     this.props.history.push('/')
   }

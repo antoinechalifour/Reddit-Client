@@ -11,8 +11,7 @@ import Filter from 'components/Subreddit/Filter'
 export default class RPage extends Component {
   static propTypes = {
     api: PropTypes.shape({
-      r: PropTypes.shape({
-        r: PropTypes.func.isRequired,
+      subreddits: PropTypes.shape({
         about: PropTypes.func.isRequired
       }).isRequired
     }).isRequired,
@@ -41,7 +40,7 @@ export default class RPage extends Component {
 
   async syncAbout () {
     this.setState({
-      about: await this.props.api.r.about(this.props.r)
+      about: await this.props.api.subreddits.about(this.props.r)
     })
   }
 
@@ -77,6 +76,10 @@ export default class RPage extends Component {
       }
     ]
 
+    if (!this.props.listingParams) {
+      return null
+    }
+
     return (
       <Layout
         renderHeader={() => <Header title={`/r/${this.props.r}`} />}
@@ -91,14 +94,12 @@ export default class RPage extends Component {
                 </Tab>
               ))}
             </FilterTabs>
-            {this.isLoading
-              ? <Loader />
-              : <Filter
-                r={this.props.r}
-                filter={this.props.filter}
-                api={this.props.api}
-                listingParams={this.props.listingParams}
-                />}
+            <Filter
+              r={this.props.r}
+              filter={this.props.filter}
+              api={this.props.api}
+              listingParams={this.props.listingParams}
+            />
           </Fragment>
         )}
         renderRightSidebar={() =>

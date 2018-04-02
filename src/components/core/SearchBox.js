@@ -36,7 +36,7 @@ export default class SearchBox extends Component {
   }
 
   async searchSuggestions () {
-    const results = await this.props.api.r.search(this.state.search)
+    const results = await this.props.api.subreddits.search(this.state.search)
 
     this.setState({ suggestions: results.data, showSuggestions: true })
   }

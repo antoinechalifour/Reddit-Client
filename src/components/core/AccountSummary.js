@@ -8,7 +8,7 @@ import UserName from 'components/core/UserName'
 export default class AccountSummary extends Component {
   static propTypes = {
     api: PropTypes.shape({
-      user: PropTypes.shape({
+      account: PropTypes.shape({
         me: PropTypes.func.isRequired
       }).isRequired
     }).isRequired,
@@ -21,7 +21,7 @@ export default class AccountSummary extends Component {
 
   async componentDidMount () {
     this.setState({
-      user: await this.props.api.user.me()
+      user: await this.props.api.account.me()
     })
   }
 

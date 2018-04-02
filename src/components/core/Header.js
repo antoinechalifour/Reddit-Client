@@ -33,7 +33,7 @@ export default function Header ({ title }) {
             </SearchContainer>
             <AccountContext.Consumer>
               {account =>
-                (account.refreshToken
+                (account.accessToken
                   ? <Account api={api} account={account} />
                   : <a href='https://www.reddit.com/api/v1/authorize?client_id=GDObwCGoh5qWdg&response_type=code&state=_&redirect_uri=http://localhost:3000/oauth&duration=permanent&scope=identity edit history mysubreddits read save submit subscribe vote'>
                       Login

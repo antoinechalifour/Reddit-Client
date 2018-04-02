@@ -8,7 +8,7 @@ export default class MoreComments extends Component {
     commentIds: PropTypes.arrayOf(PropTypes.string).isRequired,
     linkId: PropTypes.string.isRequired,
     api: PropTypes.shape({
-      comments: PropTypes.shape({
+      links: PropTypes.shape({
         moreChildren: PropTypes.func.isRequired
       }).isRequired
     }).isRequired
@@ -24,7 +24,7 @@ export default class MoreComments extends Component {
     const iterations = Math.ceil(this.props.commentIds.length / BATCH_SIZE)
 
     for (let i = 0; i < iterations; i += 1) {
-      const batch = await this.props.api.comments.moreChildren(
+      const batch = await this.props.api.links.moreChildren(
         this.props.linkId,
         this.props.commentIds.slice(i * BATCH_SIZE, i * BATCH_SIZE + BATCH_SIZE)
       )

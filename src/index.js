@@ -4,19 +4,41 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import registerServiceWorker from './registerServiceWorker'
 import App from './App'
-import Api from './api'
+import Auth from './api/Auth'
+import Api from 'api'
 
-const api = Api()
+const debug = process.env.NODE_ENV === 'production' ? null : 'app/*'
+window.localStorage.setItem('debug', debug)
 
-api.setAccessToken(localStorage.getItem('accessToken', null))
+const auth = new Auth()
+const api = Api({
+  clientId: process.env.REACT_APP_API_CLIENT_ID,
+  clientSecret: process.env.REACT_APP_API_CLIENT_SECRET,
+  redirectUri: process.env.REACT_APP_API_REDIRECT_URI,
+  auth
+})
 
-ReactDOM.render(<App api={api} />, document.getElementById('root'))
-registerServiceWorker()
+function bootstrap () {
+  ReactDOM.render(
+    <App api={api} auth={auth} />,
+    document.getElementById('root')
+  )
+  registerServiceWorker()
 
-if (module.hot) {
-  module.hot.accept('./App', () => {
-    const NextApp = require('./App').default
+  if (module.hot) {
+    module.hot.accept('./App', () => {
+      const NextApp = require('./App').default
 
-    ReactDOM.render(<NextApp api={api} />, document.getElementById('root'))
-  })
+      ReactDOM.render(
+        <NextApp api={api} auth={auth} />,
+        document.getElementById('root')
+      )
+    })
+  }
+}
+
+if (auth.refreshToken) {
+  api.oauth.refresh().then(bootstrap).catch(bootstrap)
+} else {
+  bootstrap()
 }

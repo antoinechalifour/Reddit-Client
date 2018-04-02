@@ -23,11 +23,17 @@ Comments.propTypes = {
   data: PropTypes.shape({
     children: PropTypes.arrayOf(
       PropTypes.shape({
-        data: PropTypes.shape({
-          author: PropTypes.string.isRequired,
-          created_utc: PropTypes.number.isRequired,
-          body: PropTypes.string.isRequired
-        }).isRequired
+        data: PropTypes.oneOfType([
+          PropTypes.shape({
+            author: PropTypes.string.isRequired,
+            created_utc: PropTypes.number.isRequired,
+            body: PropTypes.string.isRequired
+          }),
+          PropTypes.shape({
+            children: PropTypes.arrayOf(PropTypes.string).isRequired,
+            count: PropTypes.number.isRequired
+          })
+        ]).isRequired
       })
     ).isRequired
   })

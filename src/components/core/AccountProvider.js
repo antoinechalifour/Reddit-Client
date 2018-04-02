@@ -1,17 +1,41 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import AccountContext from './AccountContext'
 
 export default class AccountProvider extends Component {
+  static propTypes = {
+    auth: PropTypes.shape({
+      accessToken: PropTypes.string,
+      refreshToken: PropTypes.string
+    }).isRequired
+  }
+
   constructor (props) {
     super(props)
 
-    const accessToken = localStorage.getItem('accessToken', null)
-    const refreshToken = localStorage.getItem('refreshToken', null)
-
     this.state = {
-      accessToken,
-      refreshToken
+      accessToken: props.auth.accessToken,
+      refreshToken: props.auth.refreshToken
     }
+
+    this.unsubscribe = props.auth.subscribe(() => {
+      this.setState({
+        accessToken: props.auth.accessToken,
+        refreshToken: props.auth.refreshToken
+      })
+    })
+  }
+
+  componentWillUnmount () {
+    this.unsubscribe()
+  }
+
+  setAccessToken = token => {
+    this.props.auth.accessToken = token
+  }
+
+  setRefreshToken = token => {
+    this.props.auth.refreshToken = token
   }
 
   render () {
@@ -20,8 +44,8 @@ export default class AccountProvider extends Component {
         value={{
           accessToken: this.state.accessToken,
           refreshToken: this.state.refreshToken,
-          setAccessToken: token => this.setState({ accessToken: token }),
-          setRefreshToken: token => this.setState({ refreshToken: token })
+          setAccessToken: this.setAccessToken,
+          setRefreshToken: this.setRefreshToken
         }}
       >
         {this.props.children}
