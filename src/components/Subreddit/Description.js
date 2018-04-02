@@ -23,6 +23,8 @@ const Container = styled.div`
   padding: 12px;
   font-size: 85%;
   opacity: .75;
+  position: sticky;
+  top: 0;
 
   p, ul, ol {
     margin: 6px 0;
