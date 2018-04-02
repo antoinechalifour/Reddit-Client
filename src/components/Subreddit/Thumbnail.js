@@ -73,9 +73,11 @@ Thumbnail.propTypes = {
   preview: PropTypes.shape({
     images: PropTypes.arrayOf(
       PropTypes.shape({
-        resolutions: PropTypes.arrayOf({
-          url: PropTypes.string.isRequired
-        }).isRequired
+        resolutions: PropTypes.arrayOf(
+          PropTypes.shape({
+            url: PropTypes.string.isRequired
+          })
+        ).isRequired
       })
     ).isRequired
   })
