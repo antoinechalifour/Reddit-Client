@@ -54,9 +54,12 @@ export default class Filter extends Component {
       this.props.listingParams
     )
 
-    this.setState({
-      articles: data
-    })
+    this.setState(
+      {
+        articles: data
+      },
+      () => window.scrollTo(0, 0)
+    )
   }
 
   render () {
