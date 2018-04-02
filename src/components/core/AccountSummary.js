@@ -13,7 +13,7 @@ export default class AccountSummary extends Component {
       }).isRequired
     }).isRequired,
     account: PropTypes.shape({
-      setRefreshToken: PropTypes.func.isRequired
+      logout: PropTypes.func.isRequired
     })
   }
 
@@ -23,11 +23,6 @@ export default class AccountSummary extends Component {
     this.setState({
       user: await this.props.api.account.me()
     })
-  }
-
-  logout = () => {
-    this.props.account.setAccessToken(null)
-    this.props.account.setRefreshToken(null)
   }
 
   render () {
@@ -42,7 +37,10 @@ export default class AccountSummary extends Component {
             </Row>
             <Row>
               <LogoutIcon />
-              <Clickable role='button' onClick={this.logout}>
+              <Clickable
+                role='button'
+                onClick={() => this.props.account.logout()}
+                >
                   Logout
                 </Clickable>
             </Row>

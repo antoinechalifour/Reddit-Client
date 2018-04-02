@@ -30,22 +30,17 @@ export default class AccountProvider extends Component {
     this.unsubscribe()
   }
 
-  setAccessToken = token => {
-    this.props.auth.accessToken = token
-  }
-
-  setRefreshToken = token => {
-    this.props.auth.refreshToken = token
+  logout = () => {
+    this.props.auth.accessToken = null
+    this.props.auth.refreshToken = null
   }
 
   render () {
     return (
       <AccountContext.Provider
         value={{
-          accessToken: this.state.accessToken,
-          refreshToken: this.state.refreshToken,
-          setAccessToken: this.setAccessToken,
-          setRefreshToken: this.setRefreshToken
+          isLoggedIn: !!this.state.accessToken,
+          logout: this.logout
         }}
       >
         {this.props.children}
